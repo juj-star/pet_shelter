@@ -1,0 +1,34 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+header, footer {
+    text-align: center;
+    padding: 1em;
+    background-color: #f0f0f0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+main {
+    padding: 1em;
+}
+
+.animal-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.animal {
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid #ddd;
+}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if animal_profile %}
+        <h1>{{ animal_profile.type.type_name }} - {{ animal_profile.breed.breed_name }}</h1>
+        <img src="{{ animal_profile.pic }}" alt="Picture of {{ animal_profile.type.type_name }}">
+        <p>{{ animal_profile.description }}</p>
+        <p>Disposition: {{ animal_profile.disposition.disposition_name }}</p>
+        <p>Availability: {{ animal_profile.availability.availability_name }}</p>
+    {% else %}
+        <p>Animal profile not found.</p>
+    {% endif %}
+{% endblock %}
