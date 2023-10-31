@@ -5,6 +5,8 @@ import os
 def create_app():
     app = Flask(__name__)
 
+    app.config['SECRET_KEY'] = 'your_secret_key_here'
+
     # Get MongoDB URI from environment variables
     mongo_uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/pet_shelter')
     app.config["MONGO_URI"] = mongo_uri

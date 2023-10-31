@@ -1,10 +1,13 @@
 from .db import mongo
 
+def find_user_by_username(username):
+    return mongo.db.hoomans.find_one({"username": username})
+
 def insert_animal_profile(animal_profile):
     return mongo.db.animal_profiles.insert_one(animal_profile.to_document())
 
-def insert_hooman(hooman):
-    return mongo.db.hoomans.insert_one(hooman.to_document())
+def insert_hooman(hooman_data):
+    return mongo.db.hoomans.insert_one(hooman_data)
 
 def find_animal_profile(profile_id):
     return mongo.db.animal_profiles.find_one({"_id": profile_id})
