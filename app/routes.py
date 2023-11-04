@@ -7,6 +7,7 @@ import re
 from .database.db_utils import find_user_by_username
 from .database.db_utils import find_hooman_by_id
 from .database.db_utils import find_user_by_email
+from .forms import AnimalProfileForm
 
 
 main_bp = Blueprint('main_bp', __name__)
@@ -125,3 +126,27 @@ def user_dashboard():
     # Perform any additional processing needed for the hooman's data
 
     return render_template('user_dashboard.html', hooman=hooman)
+
+@main_bp.route('/add_animal_profile', methods=['GET', 'POST'])
+def add_animal_profile():
+    form = AnimalProfileForm()  # Instantiate your form
+
+    if form.validate_on_submit():  # Checks if the form has been submitted and is valid
+        # Collect data from the form
+        animal_data = {
+            'type_id': form.type_id.data,
+            'breed_id': form.breed_id.data,
+            'disposition_id': form.disposition_id.data,
+            'availability_id': form.availability_id.data,
+            'description': form.description.data,
+            # Add logic for handling picture upload if necessary
+        }
+        
+        # Save the animal profile to the database
+        insert_animal_profile(animal_data)
+
+        flash('Animal profile added successfully!', 'success')
+        return redirect(url_for('main_bp.index'))  # Redirect to the index page
+
+    # If the request is GET or the form is not valid, render the add animal profile page with the form
+    return render_template('add_animal_profile.html', form=form)
