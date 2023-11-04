@@ -49,7 +49,9 @@ def admin_only_view():
         abort(403)  # Forbidden access
     
     # Fetch all user profiles from the database
-    all_users = get_all_users()  
+    all_users = get_all_users()
+    print("debug:")
+    print(all_users)
 
     return render_template('admin_dashboard.html', users=all_users)
 
@@ -203,3 +205,9 @@ def logout():
     session.pop('username', None)  # If you are storing this in session as well
     flash('You have been logged out.', 'success')
     return redirect(url_for('main_bp.index'))
+
+@main_bp.route('/test_users')
+def test_users():
+    all_users = get_all_users()
+    return str(all_users)  # For debugging, return the raw data as a string
+

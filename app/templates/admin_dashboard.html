@@ -2,30 +2,21 @@
 
 {% block content %}
     <h1>Admin Dashboard</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in all_users %}
-            <tr>
-                <td>{{ user['_id'] }}</td>
-                <td>{{ user['username'] }}</td>
-                <td>{{ user['email'] }}</td>
-                <td>{{ user['name'] }}</td>
-                <td>
-                    <!-- Replace with actual URLs and methods for editing or deleting users -->
-                    <a href="{{ url_for('main_bp.edit_user', user_id=user['_id']) }}">Edit</a>
-                    <a href="{{ url_for('main_bp.delete_user', user_id=user['_id']) }}">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div>
+        <h2>User Profiles:</h2>
+        {% for user in users %}
+            <div class="user-profile">
+                <p>User ID: {{ user['_id'] }}</p>
+                <p>Username: {{ user['username'] }}</p>
+                <p>Email: {{ user['email'] }}</p>
+                {% if user.get('name') %}
+                    <p>Name: {{ user['name'] }}</p>
+                {% endif %}
+                <!-- Add more fields as needed -->
+                <p>-----------------</p>
+            </div>
+        {% else %}
+            <p>No users found.</p>
+        {% endfor %}
+    </div>
 {% endblock %}

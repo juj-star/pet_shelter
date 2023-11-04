@@ -66,11 +66,10 @@ def find_user_by_email(email):
     return mongo.db.hoomans.find_one({"email": email})
 
 def get_all_users():
-    users_cursor = mongo.db.hoomans.find()
-    users = list(users_cursor)
-    # Convert ObjectId fields (_id and potentially others) to strings for serialization
+    users = mongo.db.hoomans.find()
+    users_list = []
     for user in users:
-        user['_id'] = str(user['_id'])
-        if 'adoption_history' in user:
-            user['adoption_history'] = [str(animal_id) for animal_id in user['adoption_history']]
-    return users
+        user['_id'] = str(user['_id'])  # Convert ObjectId to string
+        users_list.append(user)
+    return users_list
+
