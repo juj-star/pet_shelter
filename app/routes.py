@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask import current_app
+from flask import jsonify
 from .database.db_utils import insert_animal_profile, find_animal_profile
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
@@ -10,9 +11,12 @@ from .database.db_utils import find_user_by_username
 from .database.db_utils import find_hooman_by_id
 from .database.db_utils import find_user_by_email
 from .database.db_utils import get_all_users
+from .database.db_utils import insert_hooman
+from .models.hooman import Hooman
 from flask_wtf.file import FileField, FileAllowed
 from .forms import AnimalProfileForm
 from flask import abort
+from faker import Faker
 
 
 main_bp = Blueprint('main_bp', __name__)
@@ -211,3 +215,22 @@ def test_users():
     all_users = get_all_users()
     return str(all_users)  # For debugging, return the raw data as a string
 
+fake = Faker()
+
+@main_bp.route('/generate_test_users', methods=['GET'])
+def generate_test_users():
+    users_created = []
+    for _ in range(10):
+        name = fake.name()
+        username = fake.user_name()  # Generate a fake username
+        email = fake.email()
+        phone = fake.phone_number()
+        address = fake.address()
+        password = generate_password_hash('testpassword')  # For testing purposes
+        hooman = Hooman(None, name, email, phone, address)
+        hooman_doc = hooman.to_document()
+        hooman_doc['username'] = username  # Add the username to the document
+        hooman_doc['password'] = password  # Include password in the document
+        insert_hooman(hooman_doc)
+        users_created.append(hooman_doc)
+    return jsonify({"message": "Test users created", "users": users_created}), 201

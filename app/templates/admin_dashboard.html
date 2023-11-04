@@ -9,6 +9,9 @@
                 <p>User ID: {{ user['_id'] }}</p>
                 <p>Username: {{ user['username'] }}</p>
                 <p>Email: {{ user['email'] }}</p>
+                {% if user.get('address') %}
+                <p>Address: {{ user['address'] }}</p>
+                {% endif %}
                 {% if user.get('name') %}
                     <p>Name: {{ user['name'] }}</p>
                 {% endif %}

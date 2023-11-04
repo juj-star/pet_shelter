@@ -6,3 +6,4 @@ Flask-Mail
 Flask-PyMongo
 pymongo
 python-dotenv
+Faker
