@@ -29,9 +29,24 @@ def profile(profile_id):
     animal_profile = find_animal_profile(profile_id)
     return render_template('profile.html', animal_profile=animal_profile)
 
-@main_bp.route('/admin/dashboard')
-def admin_dashboard():
-    # Admin dashboard logic here
+@main_bp.route('/admin_dashboard')
+def admin_only_view():
+    user_id = session.get('user_id', None)
+    if user_id is None:
+        # User is not logged in
+        flash('You must be logged in to view this page.', 'warning')
+        return redirect(url_for('main_bp.login'))
+
+    user = find_hooman_by_id(user_id)
+    if user is None:
+        # User not found in the database
+        flash('User not found.', 'danger')
+        return redirect(url_for('main_bp.login'))
+
+    if not user.get('is_admin', False):
+        # User is not an admin
+        abort(403)  # Forbidden access
+
     return render_template('admin_dashboard.html')
 
 @main_bp.route('/login', methods=['GET', 'POST'])
@@ -47,8 +62,16 @@ def login():
             # Set up the user session
             session['user_id'] = str(user['_id'])  # Convert ObjectId to string
             session['username'] = user['username']
+            
+            # If the user is admin, redirect to the admin dashboard
+            if user['username'].lower() == 'admin':
+                flash('Logged in successfully as admin!', 'success')
+                return redirect(url_for('main_bp.admin_only_view'))
+            
+            # Redirect to the user dashboard for non-admin users
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('main_bp.user_dashboard'))  # Redirect to the user dashboard
+            return redirect(url_for('main_bp.user_dashboard'))
+
         else:
             # Invalid credentials
             flash('Invalid username or password.', 'danger')
@@ -167,9 +190,3 @@ def add_animal_profile():
         return redirect(url_for('main_bp.index'))  # Redirect to the index page
 
     return render_template('add_animal_profile.html', form=form)
-
-@main_bp.route('/admin-only')
-def admin_only_view():
-    if not current_user.is_authenticated or not current_user.is_admin:
-        abort(403)  # Forbidden access
-    return render_template('admin_only.html')
