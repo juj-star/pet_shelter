@@ -226,7 +226,7 @@ def generate_test_users():
         email = fake.email()
         phone = fake.phone_number()
         address = fake.address()
-        password = generate_password_hash('testpassword')  # For testing purposes
+        password = generate_password_hash('password')  # For testing purposes
         hooman = Hooman(None, name, email, phone, address)
         hooman_doc = hooman.to_document()
         hooman_doc['username'] = username  # Add the username to the document
