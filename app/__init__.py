@@ -25,7 +25,7 @@ def create_app():
         admin_username = 'admin'
         admin_email = 'admin@example.com'
         # Hardcoded password for non-production use
-        admin_password = 'admin_password'  # Change this to your desired password
+        admin_password = 'admin'  # Change this to your desired password
 
         # Check if the admin user already exists
         existing_admin = find_user_by_username(admin_username)
