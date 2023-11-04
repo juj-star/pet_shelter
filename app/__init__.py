@@ -1,6 +1,6 @@
 from flask import Flask
 from werkzeug.security import generate_password_hash
-from .database.db import mongo, init_db  # Ensure that mongo is imported here
+from .database.db import init_db  # Ensure that mongo is imported here
 from .database.db_utils import find_user_by_username, insert_hooman
 import os
 
@@ -20,10 +20,9 @@ def create_app():
     def create_admin_user():
         admin_username = 'admin'
         admin_email = 'admin@example.com'
-        admin_password = 'admin'  # Change this to your desired password
+        admin_password = 'admin_password'  # Replace with a secure password in production
 
-        # Since we are within the application context,
-        # we can directly use the `mongo` object imported from `db`.
+        # Check if the admin user already exists
         existing_admin = find_user_by_username(admin_username)
         if not existing_admin:
             hashed_password = generate_password_hash(admin_password)
@@ -31,8 +30,9 @@ def create_app():
                 'username': admin_username,
                 'email': admin_email,
                 'password': hashed_password,
-                'is_admin': True
+                'is_admin': True  # This is the attribute that grants admin rights
             }
+            # Insert the admin user into the database
             insert_hooman(admin_data)
             print('Admin user created')
         else:

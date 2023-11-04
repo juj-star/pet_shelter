@@ -11,6 +11,7 @@ from .database.db_utils import find_hooman_by_id
 from .database.db_utils import find_user_by_email
 from flask_wtf.file import FileField, FileAllowed
 from .forms import AnimalProfileForm
+from flask import abort
 
 
 main_bp = Blueprint('main_bp', __name__)
@@ -166,3 +167,9 @@ def add_animal_profile():
         return redirect(url_for('main_bp.index'))  # Redirect to the index page
 
     return render_template('add_animal_profile.html', form=form)
+
+@main_bp.route('/admin-only')
+def admin_only_view():
+    if not current_user.is_authenticated or not current_user.is_admin:
+        abort(403)  # Forbidden access
+    return render_template('admin_only.html')
