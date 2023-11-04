@@ -9,6 +9,7 @@ import re
 from .database.db_utils import find_user_by_username
 from .database.db_utils import find_hooman_by_id
 from .database.db_utils import find_user_by_email
+from .database.db_utils import get_all_users
 from flask_wtf.file import FileField, FileAllowed
 from .forms import AnimalProfileForm
 from flask import abort
@@ -43,11 +44,14 @@ def admin_only_view():
         flash('User not found.', 'danger')
         return redirect(url_for('main_bp.login'))
 
-    if not user.get('is_admin', False):
-        # User is not an admin
+    # Here we check the user object itself for an 'is_admin' property
+    if not user.get('is_admin'):
         abort(403)  # Forbidden access
+    
+    # Fetch all user profiles from the database
+    all_users = get_all_users()  
 
-    return render_template('admin_dashboard.html')
+    return render_template('admin_dashboard.html', users=all_users)
 
 @main_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -62,21 +66,22 @@ def login():
             # Set up the user session
             session['user_id'] = str(user['_id'])  # Convert ObjectId to string
             session['username'] = user['username']
-            
-            # If the user is admin, redirect to the admin dashboard
-            if user['username'].lower() == 'admin':
+            # Set is_admin in session, check if is_admin key exists and is true
+            session['is_admin'] = user.get('is_admin', False)
+
+            if session['is_admin']:
+                # If the user is admin, redirect to the admin dashboard
                 flash('Logged in successfully as admin!', 'success')
                 return redirect(url_for('main_bp.admin_only_view'))
-            
-            # Redirect to the user dashboard for non-admin users
-            flash('Logged in successfully!', 'success')
-            return redirect(url_for('main_bp.user_dashboard'))
-
+            else:
+                # Redirect to the user dashboard for non-admin users
+                flash('Logged in successfully!', 'success')
+                return redirect(url_for('main_bp.user_dashboard'))
         else:
             # Invalid credentials
             flash('Invalid username or password.', 'danger')
-            return redirect(url_for('main_bp.login'))
 
+    # If GET request or login failed, render the login template
     return render_template('login.html')
 
 @main_bp.route('/signup', methods=['GET', 'POST'])
@@ -190,3 +195,11 @@ def add_animal_profile():
         return redirect(url_for('main_bp.index'))  # Redirect to the index page
 
     return render_template('add_animal_profile.html', form=form)
+
+@main_bp.route('/logout')
+def logout():
+    # Here you'd clear the session or remove the 'user_id'
+    session.pop('user_id', None)
+    session.pop('username', None)  # If you are storing this in session as well
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('main_bp.index'))

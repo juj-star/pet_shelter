@@ -11,7 +11,12 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('main_bp.index') }}">Home</a></li>
-                <li><a href="{{ url_for('main_bp.login') }}">Login</a></li>
+                {% if 'user_id' in session %}
+                    <li><a href="{{ url_for('main_bp.user_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('main_bp.logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('main_bp.login') }}">Login</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
