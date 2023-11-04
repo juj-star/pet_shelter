@@ -9,7 +9,7 @@ class AnimalProfileForm(FlaskForm):
     disposition_id = SelectField('Disposition', coerce=int, validators=[DataRequired()])
     availability_id = SelectField('Availability', coerce=int, validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    picture = FileField('Upload Animal Picture', validators=[
-        FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')
+    image = FileField('Animal Image', validators=[
+        FileAllowed(['jpg', 'png', 'gif'], 'Images only!')
     ])
     submit = SubmitField('Create Profile')

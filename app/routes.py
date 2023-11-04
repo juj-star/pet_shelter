@@ -1,12 +1,15 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import current_app
 from .database.db_utils import insert_animal_profile, find_animal_profile
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 from .database.db_utils import insert_hooman
 import re
 from .database.db_utils import find_user_by_username
 from .database.db_utils import find_hooman_by_id
 from .database.db_utils import find_user_by_email
+from flask_wtf.file import FileField, FileAllowed
 from .forms import AnimalProfileForm
 
 
@@ -127,11 +130,25 @@ def user_dashboard():
 
     return render_template('user_dashboard.html', hooman=hooman)
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @main_bp.route('/add_animal_profile', methods=['GET', 'POST'])
 def add_animal_profile():
     form = AnimalProfileForm()  # Instantiate your form
-
+    
     if form.validate_on_submit():  # Checks if the form has been submitted and is valid
+        # Process the image file if it's present
+        image_file = form.image.data
+        filename = None
+        if image_file and allowed_file(image_file.filename):
+            filename = secure_filename(image_file.filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(image_path)
+
         # Collect data from the form
         animal_data = {
             'type_id': form.type_id.data,
@@ -139,7 +156,7 @@ def add_animal_profile():
             'disposition_id': form.disposition_id.data,
             'availability_id': form.availability_id.data,
             'description': form.description.data,
-            # Add logic for handling picture upload if necessary
+            'image_filename': filename  # Store the filename of the image
         }
         
         # Save the animal profile to the database
@@ -148,5 +165,4 @@ def add_animal_profile():
         flash('Animal profile added successfully!', 'success')
         return redirect(url_for('main_bp.index'))  # Redirect to the index page
 
-    # If the request is GET or the form is not valid, render the add animal profile page with the form
     return render_template('add_animal_profile.html', form=form)
