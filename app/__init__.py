@@ -20,7 +20,7 @@ def create_app():
     def create_admin_user():
         admin_username = 'admin'
         admin_email = 'admin@example.com'
-        admin_password = 'admin_password'  # Replace with a secure password in production
+        admin_password = 'admin'  # Replace with a secure password in production
 
         # Check if the admin user already exists
         existing_admin = find_user_by_username(admin_username)
