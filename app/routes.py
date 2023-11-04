@@ -5,6 +5,9 @@ from werkzeug.security import check_password_hash
 from .database.db_utils import insert_hooman
 import re
 from .database.db_utils import find_user_by_username
+from .database.db_utils import find_hooman_by_id
+from .database.db_utils import find_user_by_email
+
 
 main_bp = Blueprint('main_bp', __name__)
 
@@ -106,3 +109,19 @@ def check_username(username):
     else:
         return f"No user found with username {username}."
     
+@main_bp.route('/dashboard')
+def user_dashboard():
+    if 'user_id' not in session:
+        flash('You must be logged in to view this page.', 'danger')
+        return redirect(url_for('main_bp.login'))
+
+    user_id = session['user_id']
+    # Assume you have a function named `find_hooman_by_id` to retrieve the user information.
+    hooman = find_hooman_by_id(user_id)
+    if hooman is None:
+        flash('Hooman not found.', 'danger')
+        return redirect(url_for('main_bp.index'))
+
+    # Perform any additional processing needed for the hooman's data
+
+    return render_template('user_dashboard.html', hooman=hooman)
