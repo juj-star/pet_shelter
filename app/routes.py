@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from .database.db_utils import insert_animal_profile, find_animal_profile
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
@@ -36,9 +36,11 @@ def login():
         user = find_user_by_username(username)
         if user and check_password_hash(user['password'], password):
             # User exists and password is correct
-            # Here you can set up the user session or any other login mechanism
+            # Set up the user session
+            session['user_id'] = str(user['_id'])  # Convert ObjectId to string
+            session['username'] = user['username']
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('main_bp.index'))
+            return redirect(url_for('main_bp.user_dashboard'))  # Redirect to the user dashboard
         else:
             # Invalid credentials
             flash('Invalid username or password.', 'danger')
