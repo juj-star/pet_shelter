@@ -49,35 +49,49 @@ def login():
 @main_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
+        # Extract all Hooman related information from the form
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
+        name = request.form.get('name')
+        phone = request.form.get('phone')
+        address = request.form.get('address')
 
         # Validate data
-        if not username or not email or not password:
-            flash('Please fill out all fields.')
+        if not all([username, email, password, name, phone, address]):
+            flash('Please fill out all fields.', 'warning')
             return redirect(url_for('main_bp.signup'))
 
         # Check for valid email
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            flash('Invalid email address.')
+            flash('Invalid email address.', 'danger')
             return redirect(url_for('main_bp.signup'))
 
         # Hash the password
-        hashed_password = generate_password_hash(password)  # Method removed
+        hashed_password = generate_password_hash(password)
 
         # Prepare hooman data
         hooman_data = {
             'username': username,
             'email': email,
-            'password': hashed_password
+            'password': hashed_password,
+            'name': name,
+            'phone': phone,
+            'address': address,
+            'adoption_history': []  # Assuming no adoption history upon signing up
         }
+
+        # Check if username or email already exists
+        existing_user = find_user_by_username(username) or find_user_by_email(email)  # Implement find_user_by_email
+        if existing_user:
+            flash('Username or email already exists.', 'danger')
+            return redirect(url_for('main_bp.signup'))
 
         # Store in database as hooman
         insert_hooman(hooman_data)
 
         # Redirect to login or show success message
-        flash('Account created successfully! Please login.')
+        flash('Account created successfully! Please login.', 'success')
         return redirect(url_for('main_bp.login'))
 
     return render_template('signup.html')
