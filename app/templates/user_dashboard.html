@@ -12,7 +12,7 @@
         {% if hooman.adoption_history %}
             <ul>
                 {% for adoption in hooman.adoption_history %}
-                    <li>{{ adoption.animal_name }} (ID: {{ adoption.animal_id }})</li>
+                    <li>(ID: {{ adoption }})</li>
                 {% endfor %}
             </ul>
         {% else %}
