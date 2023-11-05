@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Animal Profile</h1>
+    <div class="animal-profile">
+        <h2>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h2>
+        {% if animal['pic'] %}
+            <img src="data:image/jpeg;base64,{{ animal.pic }}" alt="Picture of {{ animal['type_name'] }}">
+        {% endif %}
+        <p><strong>Description:</strong> {{ animal['description'] }}</p>
+        <p><strong>Dispositions:</strong> {{ ', '.join(animal['dispositions']) }}</p>
+        <p><strong>Availability:</strong> {{ animal['availability'] }}</p>
+        <p><strong>Date Posted:</strong> {{ animal['date_created'] }}</p>
+        <!-- Add more fields as necessary -->
+        <a href="{{ url_for('main_bp.index') }}">Back to News Feed</a>
+    </div>
+{% endblock %}

@@ -17,6 +17,7 @@ from faker import Faker
 from datetime import datetime
 from bson import ObjectId, binary
 import base64
+from base64 import b64encode
 
 
 main_bp = Blueprint('main_bp', __name__)
@@ -38,9 +39,20 @@ def index():
 
 @main_bp.route('/profile/<profile_id>')
 def profile(profile_id):
-    # Fetch animal profile by ID
-    animal_profile = find_animal_profile(profile_id)
-    return render_template('profile.html', animal_profile=animal_profile)
+    # Use the utility function to find the animal profile by its ID
+    animal = find_animal_profile(profile_id)
+    
+    # If no animal is found with the given ID, you may want to redirect to a 404 page or back to the index
+    if not animal:
+        flash('Animal profile not found.', 'warning')
+        return redirect(url_for('main_bp.index'))
+    
+    # Decode the binary image to base64 string for display
+    if animal.get('pic'):
+        animal['pic'] = b64encode(animal['pic']).decode('utf-8')
+    
+    # Render the animal_profile template with the animal data
+    return render_template('animal_profile.html', animal=animal)
 
 @main_bp.route('/admin_dashboard')
 def admin_only_view():
