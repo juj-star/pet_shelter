@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Admin Animal Dashboard</h1>
+    
+    <!-- Sections for Pending, Available, and Unavailable animals -->
+    {% for status, animals in (('Pending', pending_animals), ('Available', available_animals), ('Unavailable', unavailable_animals)) %}
+        <section>
+            <h2>{{ status }} Animals</h2>
+            <div class="animal-list">
+                {% for animal in animals %}
+                    <div class="animal">
+                        <h3>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h3>
+                        {% if animal['pic'] %}
+                            <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}" height="100">
+                        {% else %}
+                            <p>No image available.</p>
+                        {% endif %}
+                        <p><strong>Description:</strong> {{ animal['description'] }}</p>
+                        <p><strong>Dispositions:</strong> {{ ', '.join(animal['dispositions']) }}</p>
+                        <p><strong>Availability:</strong> {{ animal['availability'] }}</p>
+                        <p><strong>Date Posted:</strong> {{ animal['date_created'] }}</p>
+                        <!-- Include other animal details you might have -->
+                        <p><strong>Other Details:</strong> <!-- Add details here --></p>
+
+                        <!-- Buttons for editing or deleting an animal -->
+                        <a href="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}">Edit</a>
+                        <form action="{{ url_for('main_bp.delete_animal', animal_id=animal['_id']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this animal?');">
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </div>
+                {% else %}
+                    <p>No {{ status.lower() }} animals found.</p>
+                {% endfor %}
+            </div>
+        </section>
+    {% endfor %}
+{% endblock %}

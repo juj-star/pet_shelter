@@ -66,3 +66,23 @@ def get_available_animals():
     available_animals_cursor = mongo.db.animal_profiles.find({'availability': 'Available'})
     # Convert the cursor to a list and return
     return list(available_animals_cursor)
+
+def get_pending_animals():
+    """
+    Retrieves animal profiles from MongoDB where the 'availability' field is 'Pending'.
+
+    Returns:
+        A list of dictionaries, where each dictionary represents a pending animal profile.
+    """
+    pending_animals_cursor = mongo.db.animal_profiles.find({'availability': 'Pending'})
+    return list(pending_animals_cursor)
+
+def get_unavailable_animals():
+    """
+    Retrieves animal profiles from MongoDB where the 'availability' field is 'Unavailable'.
+
+    Returns:
+        A list of dictionaries, where each dictionary represents an unavailable animal profile.
+    """
+    unavailable_animals_cursor = mongo.db.animal_profiles.find({'availability': 'Unavailable'})
+    return list(unavailable_animals_cursor)

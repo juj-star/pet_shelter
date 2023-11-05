@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Edit Animal Profile</h1>
+<form action="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}" method="post" enctype="multipart/form-data">
+    <label for="type_name">Type:</label>
+    <input type="text" id="type_name" name="type_name" value="{{ animal['type_name'] }}" required>
+
+    <label for="breed_name">Breed:</label>
+    <input type="text" id="breed_name" name="breed_name" value="{{ animal['breed_name'] }}" required>
+
+    <fieldset>
+        <legend>Dispositions:</legend>
+        <!-- Dynamically check which dispositions are associated with the animal -->
+        <label><input type="checkbox" name="dispositions" value="Good with other animals" 
+        {% if "Good with other animals" in animal['dispositions'] %}checked{% endif %}> Good with other animals</label>
+        <label><input type="checkbox" name="dispositions" value="Good with children" 
+        {% if "Good with children" in animal['dispositions'] %}checked{% endif %}> Good with children</label>
+        <label><input type="checkbox" name="dispositions" value="Animal must be leashed at all times" 
+        {% if "Animal must be leashed at all times" in animal['dispositions'] %}checked{% endif %}> Animal must be leashed at all times</label>
+        <!-- Add more checkboxes for other dispositions as needed -->
+    </fieldset>
+
+    <label for="availability">Availability:</label>
+    <select id="availability" name="availability" required>
+        <option value="Available" {% if animal['availability'] == 'Available' %}selected{% endif %}>Available</option>
+        <option value="Pending" {% if animal['availability'] == 'Pending' %}selected{% endif %}>Pending</option>
+        <option value="Unavailable" {% if animal['availability'] == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+    </select>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required>{{ animal['description'] }}</textarea>
+
+    <button type="submit">Update Profile</button>
+</form>
+<a href="{{ url_for('main_bp.admin_animal_dashboard') }}">Cancel and return to dashboard</a>
+{% endblock %}

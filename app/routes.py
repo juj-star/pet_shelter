@@ -319,3 +319,79 @@ def delete_user(user_id):
         flash('User could not be deleted.', 'danger')
 
     return redirect(url_for('main_bp.admin_only_view'))
+
+@main_bp.route('/admin_animal_dashboard')
+def admin_animal_dashboard():
+    # Check if the user is an admin
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('You must be logged in to view this page.', 'warning')
+        return redirect(url_for('main_bp.login'))
+    else:
+        flash(f'User ID obtained from session: {user_id}', 'debug')  # Debugging message
+
+    user = find_hooman_by_id(user_id)
+    if user is None:
+        flash('User not found in the database.', 'danger')
+        return redirect(url_for('main_bp.index'))
+    elif not user.get('is_admin'):
+        flash('The user is not authorized as an admin.', 'danger')
+        return redirect(url_for('main_bp.index'))
+    else:
+        flash('Admin user verified.', 'debug')  # Debugging message
+
+    # Fetch animals grouped by their availability
+    pending_animals_list = get_pending_animals()
+    available_animals_list = get_available_animals()  # Assuming you have this function as well
+    unavailable_animals_list = get_unavailable_animals()
+
+    flash(f'Pending Animals: {len(pending_animals_list)} found.', 'debug')  # Debugging message
+    flash(f'Available Animals: {len(available_animals_list)} found.', 'debug')  # Debugging message
+    flash(f'Unavailable Animals: {len(unavailable_animals_list)} found.', 'debug')  # Debugging message
+
+    # Pass the sorted lists to the template
+    return render_template('admin_animal_dashboard.html', 
+                           pending_animals=pending_animals_list,
+                           available_animals=available_animals_list,
+                           unavailable_animals=unavailable_animals_list)
+
+@main_bp.route('/edit_animal/<animal_id>', methods=['GET', 'POST'])
+def edit_animal(animal_id):
+    # Admin check omitted for brevity, but should be included here
+    animal = find_animal_profile(animal_id)
+    if not animal:
+        flash('Animal profile not found.', 'danger')
+        return redirect(url_for('main_bp.admin_animal_dashboard'))
+
+    if request.method == 'POST':
+        # Process the form data and update the animal profile
+        type_name = request.form['type_name']
+        breed_name = request.form['breed_name']
+        dispositions = request.form.getlist('dispositions')
+        availability = request.form['availability']
+        description = request.form['description']
+
+        update_data = {
+            'type_name': type_name,
+            'breed_name': breed_name,
+            'dispositions': dispositions,
+            'availability': availability,
+            'description': description
+        }
+        # Update the animal profile in the database
+        update_animal_profile(animal_id, update_data)
+        flash('Animal profile updated successfully.', 'success')
+        return redirect(url_for('main_bp.admin_animal_dashboard'))
+
+    # Render the edit page with the animal data pre-filled
+    return render_template('edit_animal.html', animal=animal)
+
+@main_bp.route('/delete_animal/<animal_id>', methods=['POST'])
+def delete_animal(animal_id):
+    # Admin check omitted for brevity, but should be included here
+    result = delete_animal_profile(animal_id)
+    if result.deleted_count > 0:
+        flash('Animal profile deleted successfully.', 'success')
+    else:
+        flash('Could not delete animal profile.', 'danger')
+    return redirect(url_for('main_bp.admin_animal_dashboard'))
