@@ -45,21 +45,18 @@ def delete_hooman(hooman_id):
     return mongo.db.hoomans.delete_one({"_id": hooman_id})
 
 def find_hooman_by_id(hooman_id):
-    try:
-        obj_id = ObjectId(hooman_id)
-        print(f"Looking for hooman with ID: {obj_id}")  # Debugging print
-    except Exception as e:
-        print(f"Error converting hooman_id to ObjectId: {e}")  # Debugging print
-        return None
+    # No need to convert to ObjectId if the _id in the database is a string
+    print(f"Looking for hooman with ID: {hooman_id}")  # Debugging print
 
-    hooman = mongo.db.hoomans.find_one({"_id": obj_id})
+    hooman = mongo.db.hoomans.find_one({"_id": hooman_id})
     if hooman:
-        hooman['_id'] = str(hooman['_id'])
+        # Assuming _id is already a string, no conversion needed
         if 'adoption_history' in hooman:
+            # Ensure adoption_history contains string IDs
             hooman['adoption_history'] = [str(animal_id) for animal_id in hooman['adoption_history']]
         return hooman
     else:
-        print(f"Hooman not found in the database with ID: {obj_id}")  # Debugging print
+        print(f"Hooman not found in the database with ID: {hooman_id}")  # Debugging print
         return None
     
 def find_user_by_email(email):
@@ -69,7 +66,7 @@ def get_all_users():
     users = mongo.db.hoomans.find()
     users_list = []
     for user in users:
-        user['_id'] = str(user['_id'])  # Convert ObjectId to string
+        #user['_id'] = str(user['_id'])  # Convert ObjectId to string
         users_list.append(user)
     return users_list
 
