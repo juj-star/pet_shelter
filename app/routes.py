@@ -12,21 +12,34 @@ from .database.db_utils import find_hooman_by_id
 from .database.db_utils import find_user_by_email
 from .database.db_utils import get_all_users
 from .database.db_utils import insert_hooman
+from .database.db_utils import get_available_animals
 from .models.hooman import Hooman
 from flask_wtf.file import FileField, FileAllowed
 from .forms import AnimalProfileForm
 from flask import abort
 from faker import Faker
+from datetime import datetime
+from bson import ObjectId, binary
+from bson.json_util import dumps
+import base64
 
 
 main_bp = Blueprint('main_bp', __name__)
 
 @main_bp.route('/')
 def index():
-    # Fetch latest animal profiles for the daily feed
-    # This is a placeholder, you'll need to implement the actual query
-    latest_animals = []
-    return render_template('index.html', latest_animals=latest_animals)
+    # Query MongoDB for available animal profiles
+    available_animals_cursor = get_available_animals()
+    # Convert the Cursor to a list
+    available_animals_list = list(available_animals_cursor)
+
+    # If you're storing images as binary data, convert them to Base64 strings
+    for animal in available_animals_list:
+        if 'pic' in animal and isinstance(animal['pic'], bytes):
+            # Convert binary data to Base64 string for embedding in HTML
+            animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
+
+    return render_template('index.html', latest_animals=available_animals_list)
 
 @main_bp.route('/profile/<profile_id>')
 def profile(profile_id):
@@ -172,37 +185,6 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@main_bp.route('/add_animal_profile', methods=['GET', 'POST'])
-def add_animal_profile():
-    form = AnimalProfileForm()  # Instantiate your form
-    
-    if form.validate_on_submit():  # Checks if the form has been submitted and is valid
-        # Process the image file if it's present
-        image_file = form.image.data
-        filename = None
-        if image_file and allowed_file(image_file.filename):
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-
-        # Collect data from the form
-        animal_data = {
-            'type_id': form.type_id.data,
-            'breed_id': form.breed_id.data,
-            'disposition_id': form.disposition_id.data,
-            'availability_id': form.availability_id.data,
-            'description': form.description.data,
-            'image_filename': filename  # Store the filename of the image
-        }
-        
-        # Save the animal profile to the database
-        insert_animal_profile(animal_data)
-
-        flash('Animal profile added successfully!', 'success')
-        return redirect(url_for('main_bp.index'))  # Redirect to the index page
-
-    return render_template('add_animal_profile.html', form=form)
-
 @main_bp.route('/logout')
 def logout():
     # Here you'd clear the session or remove the 'user_id'
@@ -248,3 +230,40 @@ def search_user():
         flash('No user found with that ID.', 'warning')
         return render_template('admin_dashboard.html')
     
+@main_bp.route('/add_animal_profile', methods=['GET', 'POST'])
+def add_animal_profile():
+    if request.method == 'POST':
+        try:
+            # Extract form data
+            type_name = request.form['type_name']
+            breed_name = request.form['breed_name']
+            dispositions = request.form.getlist('dispositions')  # This will be a list of checked dispositions
+            pic = request.files['pic']
+            availability = request.form['availability']
+            description = request.form['description']
+
+            # Convert the image to binary data
+            pic_binary = binary.Binary(pic.read())
+
+            # Construct the animal profile document
+            animal_profile_document = {
+                '_id': str(ObjectId()),  # Generate new ObjectId
+                'type_name': type_name,
+                'breed_name': breed_name,
+                'dispositions': dispositions,
+                'pic': pic_binary,  # Store the binary data of the picture
+                'availability': availability,
+                'description': description,
+                'date_created': datetime.utcnow().isoformat()  # Record the current time as the creation time
+            }
+
+            # Insert the document into MongoDB
+            insert_animal_profile(animal_profile_document)
+
+            flash('Animal profile added successfully!', 'success')
+            return redirect(url_for('main_bp.index'))
+        except Exception as e:
+            flash(f'An error occurred: {str(e)}', 'error')
+
+    # If it's a GET request or there's an error, it will render the form again
+    return render_template('add_animal_profile.html')

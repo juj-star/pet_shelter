@@ -1,56 +1,93 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Add Animal Profile</h2>
-<form action="{{ url_for('main_bp.add_animal_profile') }}" method="post" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
+<h1>Add Animal Profile</h1>
+<form method="post" action="{{ url_for('main_bp.add_animal_profile') }}" enctype="multipart/form-data">
+    <label for="type_name">Type:</label>
+    <select id="type_name" name="type_name" required>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+        <option value="Other">Other</option>
+    </select>
 
-    <div>
-        {{ form.type_name.label }}<br>
-        {{ form.type_name(size=32) }}
-        {% for error in form.type_name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </div>
+    <label for="breed_name">Breed:</label>
+    <select id="breed_name" name="breed_name" required>
+        <!-- Dog Breeds -->
+        <optgroup label="Dog Breeds">
+            <option value="Australian Shepherd">Australian Shepherd</option>
+            <option value="Beagle">Beagle</option>
+            <option value="Bernese Mountain Dog">Bernese Mountain Dog</option>
+            <option value="Boston Terrier">Boston Terrier</option>
+            <option value="Boxer">Boxer</option>
+            <option value="Brittany">Brittany</option>
+            <option value="Bulldog">Bulldog</option>
+            <option value="Cavalier King Charles Spaniel">Cavalier King Charles Spaniel</option>
+            <option value="Cocker Spaniel">Cocker Spaniel</option>
+            <option value="Dachshund">Dachshund</option>
+            <option value="Doberman Pinscher">Doberman Pinscher</option>
+            <option value="French Bulldog">French Bulldog</option>
+            <option value="German Shepherd">German Shepherd</option>
+            <option value="Golden Retriever">Golden Retriever</option>
+            <option value="Great Dane">Great Dane</option>
+            <option value="Havanese">Havanese</option>
+            <option value="Labrador Retriever">Labrador Retriever</option>
+            <option value="Mastiff">Mastiff</option>
+            <option value="Pomeranian">Pomeranian</option>
+            <option value="Poodle">Poodle</option>
+            <option value="Rottweiler">Rottweiler</option>
+            <option value="Shetland Sheepdog">Shetland Sheepdog</option>
+            <option value="Shih Tzu">Shih Tzu</option>
+            <option value="Siberian Husky">Siberian Husky</option>
+            <option value="Vizsla">Vizsla</option>
+            <option value="Yorkshire Terrier">Yorkshire Terrier</option>
+        </optgroup>
+        
+        <!-- Cat Breeds -->
+        <optgroup label="Cat Breeds">
+            <option value="Abyssinian">Abyssinian</option>
+            <option value="American Shorthair">American Shorthair</option>
+            <option value="Bengal">Bengal</option>
+            <option value="Birman">Birman</option>
+            <option value="British Shorthair">British Shorthair</option>
+            <option value="Devon Rex">Devon Rex</option>
+            <option value="Domestic Shorthair">Domestic Shorthair</option>
+            <option value="Exotic Shorthair">Exotic Shorthair</option>
+            <option value="Himalayan">Himalayan</option>
+            <option value="Maine Coon">Maine Coon</option>
+            <option value="Manx">Manx</option>
+            <option value="Norwegian Forest Cat">Norwegian Forest Cat</option>
+            <option value="Oriental">Oriental</option>
+            <option value="Persian">Persian</option>
+            <option value="Ragdoll">Ragdoll</option>
+            <option value="Russian Blue">Russian Blue</option>
+            <option value="Scottish Fold">Scottish Fold</option>
+            <option value="Siamese">Siamese</option>
+            <option value="Sphynx">Sphynx</option>
+        </optgroup>
+        
+        <option value="Other">Other</option>
+    </select>
 
-    <div>
-        {{ form.breed_name.label }}<br>
-        {{ form.breed_name(size=32) }}
-        {% for error in form.breed_name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </div>
+    <fieldset>
+        <legend>Dispositions:</legend>
+        <label><input type="checkbox" name="dispositions" value="Good with other animals"> Good with other animals</label>
+        <label><input type="checkbox" name="dispositions" value="Good with children"> Good with children</label>
+        <label><input type="checkbox" name="dispositions" value="Animal must be leashed at all times"> Animal must be leashed at all times</label>
+    </fieldset>
 
-    <div>
-        {{ form.dispositions.label }}<br>
-        {% for subfield in form.dispositions %}
-            <label>
-                {{ subfield() }} {{ subfield.label.text }}
-            </label>
-        {% endfor %}
-        {% for error in form.dispositions.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </div>
+    <label for="pic">Picture:</label>
+    <input type="file" id="pic" name="pic" required>
 
-    <div>
-        {{ form.availability.label }}<br>
-        {{ form.availability() }}
-        {% for error in form.availability.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </div>
+    <label for="availability">Availability:</label>
+    <select id="availability" name="availability" required>
+        <option value="Available">Available</option>
+        <option value="Unavailable">Unavailable</option>
+        <option value="Pending">Pending</option>
+    </select>
 
-    <div>
-        {{ form.description.label }}<br>
-        {{ form.description(size=64) }}
-        {% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </div>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
 
-    <div>
-        {{ form.submit() }}
-    </div>
+    <button type="submit">Add Profile</button>
 </form>
 {% endblock %}

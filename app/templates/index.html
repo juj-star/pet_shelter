@@ -7,10 +7,14 @@
         <div class="animal-list">
             {% for animal in latest_animals %}
                 <div class="animal">
-                    <h3>{{ animal.type.type_name }} - {{ animal.breed.breed_name }}</h3>
-                    <img src="{{ animal.pic }}" alt="Picture of {{ animal.type.type_name }}">
-                    <p>{{ animal.description }}</p>
-                    <a href="{{ url_for('main_bp.profile', profile_id=animal.profile_id) }}">View Profile</a>
+                    <h3>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h3>
+                    <!-- Check if pic is not None and is a valid Base64 string -->
+                    {% if animal.pic %}
+                        <!-- Display the image by embedding the Base64 data -->
+                        <img src="data:image/jpeg;base64,{{ animal.pic }}" alt="Picture of {{ animal['type_name'] }}">
+                    {% endif %}
+                    <p>{{ animal['description'] }}</p>
+                    <a href="{{ url_for('main_bp.profile', profile_id=animal['_id']) }}">View Profile</a>
                 </div>
             {% endfor %}
         </div>
