@@ -5,13 +5,21 @@
     <div class="animal-profile">
         <h2>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h2>
         {% if animal['pic'] %}
-            <img src="data:image/jpeg;base64,{{ animal.pic }}" alt="Picture of {{ animal['type_name'] }}">
+            <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}">
         {% endif %}
         <p><strong>Description:</strong> {{ animal['description'] }}</p>
         <p><strong>Dispositions:</strong> {{ ', '.join(animal['dispositions']) }}</p>
         <p><strong>Availability:</strong> {{ animal['availability'] }}</p>
         <p><strong>Date Posted:</strong> {{ animal['date_created'] }}</p>
         <!-- Add more fields as necessary -->
+
+        <!-- Adopt button (only show if the animal is available and the user is logged in) -->
+        {% if animal['availability'] == 'Available' and 'user_id' in session %}
+            <form action="{{ url_for('main_bp.adopt_animal', profile_id=animal['_id']) }}" method="post">
+                <input type="submit" value="Adopt" />
+            </form>
+        {% endif %}
+
         <a href="{{ url_for('main_bp.index') }}">Back to News Feed</a>
     </div>
 {% endblock %}

@@ -3,14 +3,8 @@ from flask import jsonify
 from .database.db_utils import insert_animal_profile, find_animal_profile
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
-from .database.db_utils import insert_hooman
 import re
-from .database.db_utils import find_user_by_username
-from .database.db_utils import find_hooman_by_id
-from .database.db_utils import find_user_by_email
-from .database.db_utils import get_all_users
-from .database.db_utils import insert_hooman
-from .database.db_utils import get_available_animals
+from .database.db_utils import *
 from .models.hooman import Hooman
 from flask import abort
 from faker import Faker
@@ -277,3 +271,38 @@ def add_animal_profile():
 
     # If it's a GET request or there's an error, it will render the form again
     return render_template('add_animal_profile.html')
+
+@main_bp.route('/adopt_animal/<profile_id>', methods=['POST'])
+def adopt_animal(profile_id):
+    # Check if user is logged in
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('You must be logged in to adopt an animal.', 'warning')
+        return redirect(url_for('main_bp.login'))
+    
+    # Retrieve the animal profile
+    animal = find_animal_profile(profile_id)
+    if not animal:
+        flash('Animal profile not found.', 'danger')
+        return redirect(url_for('main_bp.index'))
+    
+    # Check if the animal is already available for adoption
+    if animal['availability'] != 'Available':
+        flash('This animal is not available for adoption.', 'warning')
+        return redirect(url_for('main_bp.profile', profile_id=profile_id))
+
+    # Set animal's availability to 'Pending'
+    update_data = {'availability': 'Pending'}
+    update_animal_profile(profile_id, update_data)
+    
+    # Add the animal to the user's adoption history
+    hooman = find_hooman(user_id)
+    if hooman:
+        adoption_history = hooman.get('adoption_history', [])
+        adoption_history.append(profile_id)
+        update_hooman(user_id, {'adoption_history': adoption_history})
+        flash('Adoption request submitted. Waiting for approval.', 'success')
+    else:
+        flash('User not found.', 'danger')
+
+    return redirect(url_for('main_bp.profile', profile_id=profile_id))
