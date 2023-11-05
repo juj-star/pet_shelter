@@ -103,6 +103,7 @@ def login():
     # If GET request or login failed, render the login template
     return render_template('login.html')
 
+
 @main_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -124,6 +125,15 @@ def signup():
             flash('Invalid email address.', 'danger')
             return redirect(url_for('main_bp.signup'))
 
+        # Check if username or email already exists
+        if find_user_by_username(username):
+            flash('Username already exists.', 'danger')
+            return redirect(url_for('main_bp.signup'))
+
+        if find_user_by_email(email):
+            flash('Email already exists.', 'danger')
+            return redirect(url_for('main_bp.signup'))
+
         # Hash the password
         hashed_password = generate_password_hash(password)
 
@@ -138,12 +148,6 @@ def signup():
             'adoption_history': []  # Assuming no adoption history upon signing up
         }
 
-        # Check if username or email already exists
-        existing_user = find_user_by_username(username) or find_user_by_email(email)  # Implement find_user_by_email
-        if existing_user:
-            flash('Username or email already exists.', 'danger')
-            return redirect(url_for('main_bp.signup'))
-
         # Store in database as hooman
         insert_hooman(hooman_data)
 
@@ -151,6 +155,7 @@ def signup():
         flash('Account created successfully! Please login.', 'success')
         return redirect(url_for('main_bp.login'))
 
+    # Render the signup template if GET request
     return render_template('signup.html')
 
 @main_bp.route('/check_username/<username>')
