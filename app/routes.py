@@ -1,10 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from flask import current_app
 from flask import jsonify
 from .database.db_utils import insert_animal_profile, find_animal_profile
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
-from werkzeug.utils import secure_filename
 from .database.db_utils import insert_hooman
 import re
 from .database.db_utils import find_user_by_username
@@ -14,13 +12,10 @@ from .database.db_utils import get_all_users
 from .database.db_utils import insert_hooman
 from .database.db_utils import get_available_animals
 from .models.hooman import Hooman
-from flask_wtf.file import FileField, FileAllowed
-from .forms import AnimalProfileForm
 from flask import abort
 from faker import Faker
 from datetime import datetime
 from bson import ObjectId, binary
-from bson.json_util import dumps
 import base64
 
 
