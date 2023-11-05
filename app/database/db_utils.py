@@ -46,20 +46,20 @@ def delete_hooman(hooman_id):
 
 def find_hooman_by_id(hooman_id):
     try:
-        # Ensure hooman_id is an ObjectId
         obj_id = ObjectId(hooman_id)
-    except:
-        return None  # Handle invalid ObjectId string
+        print(f"Looking for hooman with ID: {obj_id}")  # Debugging print
+    except Exception as e:
+        print(f"Error converting hooman_id to ObjectId: {e}")  # Debugging print
+        return None
 
     hooman = mongo.db.hoomans.find_one({"_id": obj_id})
     if hooman:
-        # Convert ObjectId back to string for _id
         hooman['_id'] = str(hooman['_id'])
         if 'adoption_history' in hooman:
-            # Convert ObjectId's to strings for adoption_history, if it's present
             hooman['adoption_history'] = [str(animal_id) for animal_id in hooman['adoption_history']]
         return hooman
     else:
+        print(f"Hooman not found in the database with ID: {obj_id}")  # Debugging print
         return None
     
 def find_user_by_email(email):

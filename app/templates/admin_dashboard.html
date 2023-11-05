@@ -2,6 +2,14 @@
 
 {% block content %}
     <h1>Admin Dashboard</h1>
+
+    <!-- Search form -->
+    <form action="{{ url_for('main_bp.search_user') }}" method="post">
+        <label for="search-user-id">Search User by ID:</label>
+        <input type="text" id="search-user-id" name="user_id" required>
+        <input type="submit" value="Search">
+    </form>
+
     <div>
         <h2>User Profiles:</h2>
         {% for user in users %}

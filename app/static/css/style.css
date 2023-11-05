@@ -18,6 +18,17 @@ nav ul li {
     margin: 0 10px;
 }
 
+.flash {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    background-color: #f7f7f9;
+  }
+  
+  .flash.success { background-color: #d4edda; }
+  .flash.info { background-color: #d1ecf1; }
+  .flash.warning { background-color: #fff3cd; }
+  .flash.danger { background-color: #f8d7da; }
 main {
     padding: 1em;
 }
@@ -32,3 +43,15 @@ main {
     padding: 1em;
     border: 1px solid #ddd;
 }
+
+.flash {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    background-color: #f7f7f9;
+  }
+  
+  .flash.success { background-color: #d4edda; }
+  .flash.info { background-color: #d1ecf1; }
+  .flash.warning { background-color: #fff3cd; }
+  .flash.danger { background-color: #f8d7da; }

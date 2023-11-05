@@ -153,8 +153,9 @@ def user_dashboard():
     if 'user_id' not in session:
         flash('You must be logged in to view this page.', 'danger')
         return redirect(url_for('main_bp.login'))
-
+    flash(f"Session: {session}", 'info')
     user_id = session['user_id']
+    flash(f"User ID: {user_id}", 'info')
     # Assume you have a function named `find_hooman_by_id` to retrieve the user information.
     hooman = find_hooman_by_id(user_id)
     if hooman is None:
@@ -234,3 +235,16 @@ def generate_test_users():
         insert_hooman(hooman_doc)
         users_created.append(hooman_doc)
     return jsonify({"message": "Test users created", "users": users_created}), 201
+
+@main_bp.route('/search_user', methods=['POST'])
+def search_user():
+    user_id = request.form.get('user_id')
+    # Assume you have a function that searches for a user by ID
+    user = find_hooman_by_id(user_id)
+    if user:
+        # Return the search results, perhaps rendering them on a different template or the same admin dashboard
+        return render_template('admin_dashboard.html', users=[user])
+    else:
+        flash('No user found with that ID.', 'warning')
+        return render_template('admin_dashboard.html')
+    
