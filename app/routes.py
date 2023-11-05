@@ -306,3 +306,16 @@ def adopt_animal(profile_id):
         flash('User not found.', 'danger')
 
     return redirect(url_for('main_bp.profile', profile_id=profile_id))
+
+@main_bp.route('/delete_user/<user_id>', methods=['POST'])
+def delete_user(user_id):
+    if not session.get('is_admin'):
+        abort(403)  # Only allow admins to delete users
+
+    result = delete_hooman(user_id)  # Assumes delete_hooman is a function you have created
+    if result.deleted_count:
+        flash('User deleted successfully.', 'success')
+    else:
+        flash('User could not be deleted.', 'danger')
+
+    return redirect(url_for('main_bp.admin_only_view'))
