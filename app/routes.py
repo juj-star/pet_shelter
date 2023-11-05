@@ -98,7 +98,6 @@ def login():
     # If GET request or login failed, render the login template
     return render_template('login.html')
 
-
 @main_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -120,33 +119,32 @@ def signup():
             flash('Invalid email address.', 'danger')
             return redirect(url_for('main_bp.signup'))
 
-        # Check if username or email already exists
-        if find_user_by_username(username):
+        # Check if username or email already exists in the database
+        if find_user_by_username(username) is not None:
             flash('Username already exists.', 'danger')
             return redirect(url_for('main_bp.signup'))
 
-        if find_user_by_email(email):
+        if find_user_by_email(email) is not None:
             flash('Email already exists.', 'danger')
             return redirect(url_for('main_bp.signup'))
 
         # Hash the password
         hashed_password = generate_password_hash(password)
 
-        # Prepare hooman data
-        hooman_data = {
-            'username': username,
-            'email': email,
-            'password': hashed_password,
-            'name': name,
-            'phone': phone,
-            'address': address,
-            'adoption_history': []  # Assuming no adoption history upon signing up
-        }
+        # Instantiate a new Hooman without the username and password
+        hooman = Hooman(None, name, email, phone, address)
+        
+        # Convert Hooman instance to a document
+        hooman_doc = hooman.to_document()
+        
+        # Add username and password to the document
+        hooman_doc['username'] = username
+        hooman_doc['password'] = hashed_password
 
-        # Store in database as hooman
-        insert_hooman(hooman_data)
+        # Store the Hooman document in the database
+        insert_hooman(hooman_doc)
 
-        # Redirect to login or show success message
+        # Redirect to login with success message
         flash('Account created successfully! Please login.', 'success')
         return redirect(url_for('main_bp.login'))
 
