@@ -15,8 +15,8 @@
                     <li><a href="{{ url_for('main_bp.user_dashboard') }}">Dashboard</a></li>
                     <!-- Check if the user is marked as admin in the session -->
                     {% if session.get('is_admin', False) %}
-                        <li><a href="{{ url_for('main_bp.admin_only_view') }}">Admin Dashboard</a></li>
-                        <!-- Add Animal Profile link for admins -->
+                        <li><a href="{{ url_for('main_bp.admin_only_view') }}">User Admin Dashboard</a></li>
+                        <li><a href="{{ url_for('main_bp.admin_animal_dashboard') }}">Animal Admin Dashboard</a></li>
                         <li><a href="{{ url_for('main_bp.add_animal_profile') }}">Add Animal Profile</a></li>
                     {% endif %}
                     <li><a href="{{ url_for('main_bp.logout') }}">Logout</a></li>

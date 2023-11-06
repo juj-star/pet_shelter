@@ -17,13 +17,26 @@
                 <p>User ID: {{ user['_id'] }}</p>
                 <p>Username: {{ user['username'] }}</p>
                 <p>Email: {{ user['email'] }}</p>
+                <!-- Display additional fields if they exist -->
                 {% if user.get('address') %}
                     <p>Address: {{ user['address'] }}</p>
                 {% endif %}
                 {% if user.get('name') %}
                     <p>Name: {{ user['name'] }}</p>
                 {% endif %}
-                <!-- Delete button -->
+                {% if user.get('phone') %}
+                    <p>Phone: {{ user['phone'] }}</p>
+                {% endif %}
+                {% if user.get('date_created') %}
+                    <p>Date Created: {{ user['date_created'] }}</p>
+                {% endif %}
+                {% if user.get('adoption_history') %}
+                    <p>Adoption History: {{ user['adoption_history']|join(', ') }}</p>
+                {% endif %}
+                <!-- Add more fields as necessary -->
+                
+                <!-- Edit and Delete buttons -->
+                <a href="{{ url_for('main_bp.edit_user', user_id=user['_id']) }}">Edit</a>
                 <form action="{{ url_for('main_bp.delete_user', user_id=user['_id']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
                     <input type="submit" value="Delete" />
                 </form>

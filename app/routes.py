@@ -345,6 +345,12 @@ def admin_animal_dashboard():
     available_animals_list = get_available_animals()  # Assuming you have this function as well
     unavailable_animals_list = get_unavailable_animals()
 
+    for animal_list in (pending_animals_list, available_animals_list, unavailable_animals_list):
+        for animal in animal_list:
+            if animal.get('pic'):
+                # Ensure the image data is a string in Base64 format
+                animal['pic'] = b64encode(animal['pic']).decode('utf-8')
+
     flash(f'Pending Animals: {len(pending_animals_list)} found.', 'debug')  # Debugging message
     flash(f'Available Animals: {len(available_animals_list)} found.', 'debug')  # Debugging message
     flash(f'Unavailable Animals: {len(unavailable_animals_list)} found.', 'debug')  # Debugging message
@@ -395,3 +401,44 @@ def delete_animal(animal_id):
     else:
         flash('Could not delete animal profile.', 'danger')
     return redirect(url_for('main_bp.admin_animal_dashboard'))
+
+@main_bp.route('/edit_user/<user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+    # Admin check (omitted for brevity) should be included here
+    
+    # Fetch the user's current data
+    user = find_hooman_by_id(user_id)
+    if not user:
+        flash('User not found.', 'danger')
+        return redirect(url_for('main_bp.admin_dashboard'))
+
+    if request.method == 'POST':
+        # Process the form data and update the user profile
+        username = request.form.get('username')
+        email = request.form.get('email')
+        name = request.form.get('name')
+        phone = request.form.get('phone')
+        address = request.form.get('address')
+        # Other fields as necessary
+
+        # Assume we are not updating the password here. If you are, hash it first
+        # hashed_password = generate_password_hash(request.form.get('password'))
+
+        update_data = {
+            'username': username,
+            'email': email,
+            'name': name,
+            'phone': phone,
+            'address': address,
+            # 'password': hashed_password,  # Uncomment if updating the password
+            # Add other fields to be updated
+        }
+
+        # Update the user profile in the database
+        update_hooman(user_id, update_data)
+        flash('User profile updated successfully.', 'success')
+        return redirect(url_for('main_bp.admin_only_view'))
+
+    # Render the edit page with the user's data pre-filled
+    return render_template('edit_user.html', user=user)
+
