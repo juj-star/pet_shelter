@@ -404,25 +404,27 @@ def delete_animal(animal_id):
 
 @main_bp.route('/edit_user/<user_id>', methods=['GET', 'POST'])
 def edit_user(user_id):
-    # Admin check (omitted for brevity) should be included here
-    
-    # Fetch the user's current data
+    # Admin check here
+    if 'is_admin' not in session or not session['is_admin']:
+        flash('You do not have permission to access this page.', 'danger')
+        return redirect(url_for('main_bp.login'))
+
     user = find_hooman_by_id(user_id)
     if not user:
         flash('User not found.', 'danger')
-        return redirect(url_for('main_bp.admin_dashboard'))
+        return redirect(url_for('main_bp.admin_only_view'))
 
     if request.method == 'POST':
-        # Process the form data and update the user profile
         username = request.form.get('username')
         email = request.form.get('email')
         name = request.form.get('name')
         phone = request.form.get('phone')
         address = request.form.get('address')
-        # Other fields as necessary
+        is_admin = 'is_admin' in request.form
 
-        # Assume we are not updating the password here. If you are, hash it first
-        # hashed_password = generate_password_hash(request.form.get('password'))
+        # Update password if field is not empty
+        password = request.form.get('password')
+        hashed_password = generate_password_hash(password) if password else None
 
         update_data = {
             'username': username,
@@ -430,15 +432,19 @@ def edit_user(user_id):
             'name': name,
             'phone': phone,
             'address': address,
-            # 'password': hashed_password,  # Uncomment if updating the password
-            # Add other fields to be updated
+            'is_admin': is_admin,
         }
 
+        # Only update the password if a new one was provided
+        if hashed_password:
+            update_data['password'] = hashed_password
+
         # Update the user profile in the database
-        update_hooman(user_id, update_data)
-        flash('User profile updated successfully.', 'success')
+        update_result = update_hooman(user_id, update_data)
+        if update_result:
+            flash('User profile updated successfully.', 'success')
+        else:
+            flash('Failed to update user profile.', 'danger')
         return redirect(url_for('main_bp.admin_only_view'))
 
-    # Render the edit page with the user's data pre-filled
     return render_template('edit_user.html', user=user)
-
