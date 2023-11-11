@@ -4,46 +4,33 @@
     <h1>Welcome to the Pet Shelter</h1>
 
     <!-- Search form with separate fields -->
-    <section class="search-section">
-        <form action="{{ url_for('main_bp.search_animals') }}" method="get">
-            <div>
-                <label for="type">Type:</label>
-                <input type="text" id="type" name="type" placeholder="Dog, Cat...">
-            </div>
-            <div>
-                <label for="breed">Breed:</label>
-                <input type="text" id="breed" name="breed" placeholder="Golden Retriever...">
-            </div>
-            <div>
-                <label>Disposition:</label>
-                <label><input type="checkbox" name="disposition" value="Good with children"> Good with children</label>
-                <label><input type="checkbox" name="disposition" value="Good with other animals"> Good with other animals</label>
-                <label><input type="checkbox" name="disposition" value="Animal must be leashed at all times"> Must be leashed</label>
-                <!-- Add more dispositions as needed -->
-            </div>
-            <div>
-                <label for="date_created">Date Posted:</label>
-                <input type="date" id="date_created" name="date_created">
-            </div>
-            <button type="submit">Search</button>
-        </form>
-    </section>
+    <!-- ... [existing search form code] ... -->
 
     <section class="daily-feed">
         <h2>Daily News Feed</h2>
-        <div class="animal-list">
-            {% for animal in latest_animals %}
-                <div class="animal">
-                    <h3>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h3>
-                    {% if animal['pic'] %}
-                        <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}">
-                    {% endif %}
-                    <p>{{ animal['description'] }}</p>
-                    <a href="{{ url_for('main_bp.profile', profile_id=animal['_id']) }}">View Profile</a>
+        {% if latest_animals %}
+            <!-- Assume latest_animals is a dict with dates as keys and animal lists as values -->
+            {% for date, animals_on_date in latest_animals|dictsort(false, 'key') %}
+                <div class="date-group">
+                    <h3>Posted on: {{ date }}</h3>
+                    <div class="animal-list">
+                        {% for animal in animals_on_date %}
+                            <div class="animal">
+                                <h4>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h4>
+                                {% if animal['pic'] %}
+                                    <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}" height="100">
+                                {% else %}
+                                    <p>No image available.</p>
+                                {% endif %}
+                                <p>{{ animal['description'] }}</p>
+                                <a href="{{ url_for('main_bp.profile', profile_id=animal['_id']) }}">View Profile</a>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-            {% else %}
-                <p>No animals found matching your search.</p>
             {% endfor %}
-        </div>
+        {% else %}
+            <p>No animals found.</p>
+        {% endif %}
     </section>
 {% endblock %}
