@@ -12,24 +12,35 @@ from datetime import datetime
 from bson import ObjectId, binary
 import base64
 from base64 import b64encode
+from collections import defaultdict
+from operator import itemgetter
 
 
 main_bp = Blueprint('main_bp', __name__)
 
 @main_bp.route('/')
 def index():
-    # Query MongoDB for available animal profiles
-    available_animals_cursor = get_available_animals()
-    # Convert the Cursor to a list
-    available_animals_list = list(available_animals_cursor)
+    animals_cursor = get_all_animals()
+    animals_list = list(animals_cursor)
+
+    # Group animals by date, ignoring the time of day
+    animals_by_date = defaultdict(list)
+    for animal in animals_list:
+        # Adjusted to handle fractional seconds (microseconds)
+        date_created = datetime.strptime(animal['date_created'], "%Y-%m-%dT%H:%M:%S.%f").date()
+        formatted_date = date_created.strftime('%Y-%m-%d')
+        animals_by_date[formatted_date].append(animal)
+
+    # Sort by date descending
+    latest_animals = dict(sorted(animals_by_date.items(), key=lambda item: item[0], reverse=True))
 
     # If you're storing images as binary data, convert them to Base64 strings
-    for animal in available_animals_list:
-        if 'pic' in animal and isinstance(animal['pic'], bytes):
-            # Convert binary data to Base64 string for embedding in HTML
-            animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
+    for date, animals in latest_animals.items():
+        for animal in animals:
+            if 'pic' in animal and isinstance(animal['pic'], bytes):
+                animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
 
-    return render_template('index.html', latest_animals=available_animals_list)
+    return render_template('index.html', latest_animals=latest_animals)
 
 @main_bp.route('/profile/<profile_id>')
 def profile(profile_id):
@@ -511,4 +522,3 @@ def search_animals():
     matching_animals = get_animals_by_query(query)
     
     return render_template('index.html', latest_animals=matching_animals)
-
