@@ -18,6 +18,10 @@
     <label for="address">Address:</label>
     <input type="text" id="address" name="address" value="{{ user.get('address', '') }}">
 
+    <!-- Password field for updating password -->
+    <label for="password">New Password:</label>
+    <input type="password" id="password" name="password" autocomplete="new-password">
+
     <!-- Admin status checkbox -->
     <label for="is_admin">Is Admin:</label>
     <input type="checkbox" id="is_admin" name="is_admin" {% if user.get('is_admin', False) %}checked{% endif %}>

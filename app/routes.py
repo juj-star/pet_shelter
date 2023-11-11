@@ -448,3 +448,39 @@ def edit_user(user_id):
         return redirect(url_for('main_bp.admin_only_view'))
 
     return render_template('edit_user.html', user=user)
+
+@main_bp.route('/search_animal_type', methods=['POST'])
+def search_animal_type():
+    # Admin check here
+    # ...
+
+    search_term = request.form.get('type_name')
+    if search_term:
+        # Assuming get_animals_by_type is a function that queries the database for animals by type
+        animals_by_type = get_animals_by_type(search_term)
+        if animals_by_type:
+            flash(f'Found {len(animals_by_type)} animals of type "{search_term}".', 'success')
+        else:
+            flash('No animals found with the specified type.', 'info')
+    else:
+        flash('Please enter a type to search for.', 'warning')
+
+    return redirect(url_for('main_bp.admin_animal_dashboard'))
+
+@main_bp.route('/search_animal_breed', methods=['POST'])
+def search_animal_breed():
+    # Admin check here
+    # ...
+
+    search_term = request.form.get('breed_name')
+    if search_term:
+        # Assuming get_animals_by_breed is a function that queries the database for animals by breed
+        animals_by_breed = get_animals_by_breed(search_term)
+        if animals_by_breed:
+            flash(f'Found {len(animals_by_breed)} animals of breed "{search_term}".', 'success')
+        else:
+            flash('No animals found with the specified breed.', 'info')
+    else:
+        flash('Please enter a breed to search for.', 'warning')
+
+    return redirect(url_for('main_bp.admin_animal_dashboard'))

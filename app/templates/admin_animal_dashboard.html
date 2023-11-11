@@ -2,7 +2,20 @@
 
 {% block content %}
     <h1>Admin Animal Dashboard</h1>
-    
+
+    <!-- Search forms for each animal attribute -->
+    <div class="search-section">
+        <form action="{{ url_for('main_bp.search_animal_type') }}" method="post">
+            <input type="text" name="type_name" placeholder="Search by Type">
+            <button type="submit">Search</button>
+        </form>
+        <form action="{{ url_for('main_bp.search_animal_breed') }}" method="post">
+            <input type="text" name="breed_name" placeholder="Search by Breed">
+            <button type="submit">Search</button>
+        </form>
+        <!-- Add more search forms for other attributes as needed -->
+    </div>
+
     <!-- Sections for Pending, Available, and Unavailable animals -->
     {% for status, animals in (('Pending', pending_animals), ('Available', available_animals), ('Unavailable', unavailable_animals)) %}
         <section>
@@ -23,10 +36,14 @@
                         <!-- Include other animal details you might have -->
                         <p><strong>Other Details:</strong> <!-- Add details here --></p>
 
-                        <!-- Buttons for editing or deleting an animal -->
-                        <a href="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}">Edit</a>
+                        <!-- Button for editing an animal -->
+                        <form action="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}" method="get">
+                            <button type="submit">Edit</button>
+                        </form>
+
+                        <!-- Button for deleting an animal -->
                         <form action="{{ url_for('main_bp.delete_animal', animal_id=animal['_id']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this animal?');">
-                            <input type="submit" value="Delete" />
+                            <button type="submit">Delete</button>
                         </form>
                     </div>
                 {% else %}

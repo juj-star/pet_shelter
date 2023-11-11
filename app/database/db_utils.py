@@ -1,5 +1,6 @@
 from .db import mongo
 from bson.objectid import ObjectId
+from bson import Regex
 
 
 def find_user_by_username(username):
@@ -86,3 +87,33 @@ def get_unavailable_animals():
     """
     unavailable_animals_cursor = mongo.db.animal_profiles.find({'availability': 'Unavailable'})
     return list(unavailable_animals_cursor)
+
+def get_animals_by_type(type_name):
+    """
+    Retrieves animal profiles from MongoDB where the 'type_name' field matches the search term.
+
+    Args:
+        type_name (str): The type name to search for.
+
+    Returns:
+        list: A list of dictionaries, where each dictionary represents an animal profile.
+    """
+    # Use a case-insensitive regex search for flexibility
+    regex = Regex(f"^{type_name}$", "i")
+    animals_cursor = mongo.db.animal_profiles.find({'type_name': regex})
+    return list(animals_cursor)
+
+def get_animals_by_breed(breed_name):
+    """
+    Retrieves animal profiles from MongoDB where the 'breed_name' field matches the search term.
+
+    Args:
+        breed_name (str): The breed name to search for.
+
+    Returns:
+        list: A list of dictionaries, where each dictionary represents an animal profile.
+    """
+    # Use a case-insensitive regex search for flexibility
+    regex = Regex(f"^{breed_name}$", "i")
+    animals_cursor = mongo.db.animal_profiles.find({'breed_name': regex})
+    return list(animals_cursor)
