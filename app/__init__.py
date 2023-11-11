@@ -1,9 +1,14 @@
 from flask import Flask
 from werkzeug.security import generate_password_hash
 from .database.db import init_db
-from .database.db_utils import find_user_by_username, insert_hooman  # make sure these functions exist
+from .database.db_utils import *
 import os
 from .models.hooman import Hooman
+from .models.animal import AnimalProfile
+import base64
+from bson import binary
+from datetime import datetime, timedelta
+import random
 
 def create_app():
     app = Flask(__name__)
@@ -51,6 +56,72 @@ def create_app():
             print('Admin user created')
         else:
             print('Admin user already exists')
+
+    # Helper function to generate random dates within the past two months
+    def generate_random_date(species):
+        today = datetime.today()
+        random_days = random.randint(0, 60)
+        random_date = today - timedelta(days=random_days)
+        return random_date.strftime('%Y-%m-%dT%H:%M:%S.%f')
+
+    # Generate a shared random date for cats and dogs
+    dog_shared_date1 = generate_random_date('cat')
+    dog_shared_date2 = generate_random_date('dog')
+    dog_shared_date3 = generate_random_date('dog')
+    dog_shared_date4 = generate_random_date('dog')
+    dog_shared_date5 = generate_random_date('dog')
+
+    def create_animal_profiles():
+        # Define a list of animal data to create profiles for
+        animals_data = [
+            # Cat profiles
+            {'type_name': 'Cat', 'breed_name': 'Abyssinian', 'dispositions': ['Active', 'Energetic', 'Playful'], 'pic': 'app/images/cats/abyssinian.webp', 'availability': 'Available', 'description': 'A highly active, playful, and curious cat that loves to explore.', 'date_created': dog_shared_date1},
+            {'type_name': 'Cat', 'breed_name': 'Bengal', 'dispositions': ['Energetic', 'Affectionate', 'Intelligent'], 'pic': 'app/images/cats/bengal.webp', 'availability': 'Available', 'description': 'A majestic cat that resembles a wild leopard and enjoys interactive play.', 'date_created': dog_shared_date2},
+            {'type_name': 'Cat', 'breed_name': 'British Shorthair', 'dispositions': ['Calm', 'Affectionate', 'Independent'], 'pic': 'app/images/cats/british-shorthair.webp', 'availability': 'Available', 'description': 'A calm and easygoing companion, perfect for curling up on a lap.', 'date_created': dog_shared_date3},
+            {'type_name': 'Cat', 'breed_name': 'Exotic Shorthair', 'dispositions': ['Gentle', 'Calm', 'Playful'], 'pic': 'app/images/cats/exotic-shorthair.webp', 'availability': 'Available', 'description': 'An adorable cat with a sweet personality, loves to play gently.', 'date_created': dog_shared_date1},
+            {'type_name': 'Cat', 'breed_name': 'Oriental Shorthair', 'dispositions': ['Social', 'Intelligent', 'Vocal'], 'pic': 'app/images/cats/oriental-shorthair.webp', 'availability': 'Available', 'description': 'A sleek, vocal cat who enjoys social interaction and play.', 'date_created': dog_shared_date4},
+            {'type_name': 'Cat', 'breed_name': 'Ragdoll', 'dispositions': ['Docile', 'Calm', 'Affectionate'], 'pic': 'app/images/cats/ragdoll.webp', 'availability': 'Available', 'description': 'A large, calm cat, known for going limp like a ragdoll when held.', 'date_created': dog_shared_date5},
+            {'type_name': 'Cat', 'breed_name': 'Russian Blue', 'dispositions': ['Shy', 'Quiet', 'Intelligent'], 'pic': 'app/images/cats/russian-blue.webp', 'availability': 'Available', 'description': 'A reserved and gentle cat with a striking blue coat.', 'date_created': dog_shared_date3},
+            {'type_name': 'Cat', 'breed_name': 'Siamese', 'dispositions': ['Vocal', 'Loyal', 'Lively'], 'pic': 'app/images/cats/siamese.webp', 'availability': 'Available', 'description': 'An outgoing and vocal breed with striking features and loyalty.', 'date_created': dog_shared_date5},
+            
+            # Dog profiles
+            {'type_name': 'Dog', 'breed_name': 'Coonhound', 'dispositions': ['Friendly', 'Independent', 'Loyal'], 'pic': 'app/images/dogs/coonhound.jpeg', 'availability': 'Available', 'description': 'A scent hound that is well-known for its ability to trail and tree raccoons.', 'date_created': dog_shared_date2},
+            {'type_name': 'Dog', 'breed_name': 'Cardigan Welsh Corgi', 'dispositions': ['Affectionate', 'Alert', 'Companionable'], 'pic': 'app/images/dogs/corgi-cardigan.jpeg', 'availability': 'Available', 'description': 'A small herding dog that is both companionable and watchful.', 'date_created': dog_shared_date4},
+            {'type_name': 'Dog', 'breed_name': 'Dalmatian', 'dispositions': ['Energetic', 'Playful', 'Intelligent'], 'pic': 'app/images/dogs/dalmatian.jpeg', 'availability': 'Available', 'description': 'A distinctively spotted dog known for its energy and intelligence.', 'date_created': dog_shared_date4},
+            {'type_name': 'Dog', 'breed_name': 'Pitbull', 'dispositions': ['Friendly', 'Loyal', 'Energetic'], 'pic': 'app/images/dogs/pitbull.jpeg', 'availability': 'Available', 'description': 'A dog with a strong desire to please and a big heart.', 'date_created': dog_shared_date5},
+            {'type_name': 'Dog', 'breed_name': 'Chesapeake Bay Retriever', 'dispositions': ['Intelligent', 'Happy', 'Protective'], 'pic': 'app/images/dogs/retriever-chesapeake.jpeg', 'availability': 'Available', 'description': 'An American breed known for its love of water and retrieving.', 'date_created': dog_shared_date3},
+            {'type_name': 'Dog', 'breed_name': 'Rhodesian Ridgeback', 'dispositions': ['Independent', 'Intelligent', 'Loyal'], 'pic': 'app/images/dogs/ridgeback-rhodesian.jpeg', 'availability': 'Available', 'description': 'Originally bred to hunt lions, this dog is both strong-willed and affectionate.', 'date_created': dog_shared_date5},
+            {'type_name': 'Dog', 'breed_name': 'Old English Sheepdog', 'dispositions': ['Adaptable', 'Gentle', 'Smart'], 'pic': 'app/images/dogs/sheepdog-english.jpeg', 'availability': 'Available', 'description': 'A large breed with a shaggy coat, known for its gentle nature.', 'date_created': dog_shared_date5},
+            {'type_name': 'Dog', 'breed_name': 'Jack Russell Terrier', 'dispositions': ['Energetic', 'Fearless', 'Athletic'], 'pic': 'app/images/dogs/terrier-russell.jpeg', 'availability': 'Available', 'description': 'A small terrier that is known for its athleticism and fearlessness.', 'date_created': dog_shared_date1},
+            {'type_name': 'Dog', 'breed_name': 'Tibetan Terrier', 'dispositions': ['Affectionate', 'Sensitive', 'Resilient'], 'pic': 'app/images/dogs/terrier-tibetan.jpeg', 'availability': 'Available', 'description': 'Often mistaken for a sheepdog, this terrier is affectionate and sensitive.', 'date_created': dog_shared_date4},
+            {'type_name': 'Dog', 'breed_name': 'Welsh Terrier', 'dispositions': ['Spirited', 'Friendly', 'Intelligent'], 'pic': 'app/images/dogs/terrier-welsh.jpeg', 'availability': 'Available', 'description': 'This breed is known for its friendly nature and intelligent spirit.', 'date_created': dog_shared_date2},
+        ]
+
+        # Iterate over the animals_data list and create AnimalProfile objects
+        for animal_data in animals_data:
+            with open(animal_data['pic'], 'rb') as image_file:
+                # Read the image file and encode it to binary
+                pic_binary = binary.Binary(image_file.read())
+
+            animal = AnimalProfile(
+                profile_id=None,
+                type_name=animal_data['type_name'],
+                breed_name=animal_data['breed_name'],
+                dispositions=animal_data['dispositions'],
+                pic=pic_binary,  # Store the binary data of the picture
+                availability=animal_data['availability'],
+                description=animal_data['description'],
+                date_created = animal_data['date_created'],
+                adoption_hooman=None,
+            )
+
+            # Insert the animal profile into the database
+            insert_animal_profile(animal.to_document())
+        
+    with app.app_context():
+        if not get_db_flag('animals_loaded'):
+            create_animal_profiles()  # Load animals
+            set_db_flag('animals_loaded', True)  # Set the flag to True       
 
     # Run the create_admin_user function before the first request
     with app.app_context():

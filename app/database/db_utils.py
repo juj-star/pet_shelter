@@ -178,3 +178,16 @@ def get_animals_by_query(query):
                 pass
 
     return animals
+
+def get_db_flag(flag_name):
+    config_collection = mongo.db.get_collection('config')
+    flag = config_collection.find_one({'flag_name': flag_name})
+    return flag and flag.get('value', False)
+
+def set_db_flag(flag_name, value):
+    config_collection = mongo.db.get_collection('config')
+    config_collection.update_one(
+        {'flag_name': flag_name},
+        {'$set': {'value': value}},
+        upsert=True
+    )
