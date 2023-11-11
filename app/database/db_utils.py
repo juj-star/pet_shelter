@@ -58,6 +58,9 @@ def get_all_users():
         users_list.append(user)
     return users_list
 
+def get_all_animals():
+    return mongo.db.animal_profiles.find()
+
 def get_available_animals():
     """
     Retrieves animal profiles from MongoDB where the 'availability' field is 'Available'.
