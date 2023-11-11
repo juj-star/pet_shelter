@@ -3,17 +3,33 @@
 {% block content %}
     <h1>Admin Animal Dashboard</h1>
 
-    <!-- Search forms for each animal attribute -->
+    <!-- Unified Search Form -->
     <div class="search-section">
-        <form action="{{ url_for('main_bp.search_animal_type') }}" method="post">
-            <input type="text" name="type_name" placeholder="Search by Type">
+        <form action="{{ url_for('main_bp.search_animals') }}" method="get">
+            <div>
+                <label for="type">Type:</label>
+                <input type="text" id="type" name="type" placeholder="Dog, Cat...">
+            </div>
+            <div>
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed" placeholder="Golden Retriever...">
+            </div>
+            <div>
+                <label for="disposition">Disposition:</label>
+                <select id="disposition" name="disposition">
+                    <option value="">--Select--</option>
+                    <option value="Good with children">Good with children</option>
+                    <option value="Good with other animals">Good with other animals</option>
+                    <option value="Animal must be leashed at all times">Must be leashed</option>
+                    <!-- Add more dispositions as needed -->
+                </select>
+            </div>
+            <div>
+                <label for="date_created">Date Posted:</label>
+                <input type="date" id="date_created" name="date_created">
+            </div>
             <button type="submit">Search</button>
         </form>
-        <form action="{{ url_for('main_bp.search_animal_breed') }}" method="post">
-            <input type="text" name="breed_name" placeholder="Search by Breed">
-            <button type="submit">Search</button>
-        </form>
-        <!-- Add more search forms for other attributes as needed -->
     </div>
 
     <!-- Sections for Pending, Available, and Unavailable animals -->
@@ -36,12 +52,10 @@
                         <!-- Include other animal details you might have -->
                         <p><strong>Other Details:</strong> <!-- Add details here --></p>
 
-                        <!-- Button for editing an animal -->
+                        <!-- Buttons for editing or deleting an animal -->
                         <form action="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}" method="get">
                             <button type="submit">Edit</button>
                         </form>
-
-                        <!-- Button for deleting an animal -->
                         <form action="{{ url_for('main_bp.delete_animal', animal_id=animal['_id']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this animal?');">
                             <button type="submit">Delete</button>
                         </form>

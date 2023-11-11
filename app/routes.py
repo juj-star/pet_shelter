@@ -484,3 +484,31 @@ def search_animal_breed():
         flash('Please enter a breed to search for.', 'warning')
 
     return redirect(url_for('main_bp.admin_animal_dashboard'))
+
+from flask import request
+
+@main_bp.route('/search_animals', methods=['GET'])
+def search_animals():
+    # Extract search parameters from the request
+    type_name = request.args.get('type')
+    breed_name = request.args.get('breed')
+    dispositions = request.args.getlist('disposition')  # Gets all values for 'disposition' checkbox
+    date_created = request.args.get('date_created')
+
+    # Construct a query based on the provided parameters
+    query = {}
+    if type_name:
+        query['type_name'] = {'$regex': type_name, '$options': 'i'}
+    if breed_name:
+        query['breed_name'] = {'$regex': breed_name, '$options': 'i'}
+    if dispositions:
+        query['dispositions'] = {'$in': dispositions}
+    if date_created:
+        # Assuming date_created is stored in ISO format (YYYY-MM-DD)
+        query['date_created'] = {'$gte': date_created, '$lte': f"{date_created}T23:59:59.999Z"}
+
+    # Assuming get_animals_by_query is a function that queries the database using the constructed query
+    matching_animals = get_animals_by_query(query)
+    
+    return render_template('index.html', latest_animals=matching_animals)
+

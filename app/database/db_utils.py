@@ -1,6 +1,7 @@
 from .db import mongo
 from bson.objectid import ObjectId
 from bson import Regex
+import base64
 
 
 def find_user_by_username(username):
@@ -117,3 +118,60 @@ def get_animals_by_breed(breed_name):
     regex = Regex(f"^{breed_name}$", "i")
     animals_cursor = mongo.db.animal_profiles.find({'breed_name': regex})
     return list(animals_cursor)
+
+def get_animals_by_search_term(search_term):
+    """
+    Searches for animal profiles in MongoDB where the search term matches
+    the 'type_name', 'breed_name', 'dispositions', or 'date_created' fields.
+
+    Args:
+        search_term (str): The term to search for.
+
+    Returns:
+        list: A list of animal profiles that match the search term.
+    """
+    # Prepare a case-insensitive regex pattern
+    regex_pattern = Regex(f".*{search_term}.*", "i")
+    
+    # Create a query that searches for the term in multiple fields
+    query = {
+        '$or': [
+            {'type_name': regex_pattern},
+            {'breed_name': regex_pattern},
+            {'dispositions': regex_pattern},
+            # For date_created, you might want to use a different approach
+            # because it's likely stored in a date format. This is a simple
+            # example that assumes date_created is a string that contains the year.
+            {'date_created': regex_pattern}
+        ]
+    }
+    
+    # Execute the query to find matching animal profiles
+    animals_cursor = mongo.db.animal_profiles.find(query)
+    return list(animals_cursor)
+
+def get_animals_by_query(query):
+    """
+    Retrieves animal profiles from MongoDB based on a query dictionary.
+    Converts binary image data to base64 for HTML display.
+
+    Args:
+        query (dict): A dictionary containing query parameters for the search.
+
+    Returns:
+        list: A list of dictionaries, where each dictionary represents an animal profile.
+    """
+    animals_cursor = mongo.db.animal_profiles.find(query)
+    animals = list(animals_cursor)
+
+    # Convert binary image data to base64 string for each animal
+    for animal in animals:
+        if 'pic' in animal and animal['pic']:
+            # Ensure the image data is in bytes and then convert to string
+            if isinstance(animal['pic'], bytes):
+                animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
+            else:
+                # Handle cases where 'pic' might not be bytes (e.g., already a base64 string or None)
+                pass
+
+    return animals

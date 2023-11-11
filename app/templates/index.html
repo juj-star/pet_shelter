@@ -2,20 +2,47 @@
 
 {% block content %}
     <h1>Welcome to the Pet Shelter</h1>
+
+    <!-- Search form with separate fields -->
+    <section class="search-section">
+        <form action="{{ url_for('main_bp.search_animals') }}" method="get">
+            <div>
+                <label for="type">Type:</label>
+                <input type="text" id="type" name="type" placeholder="Dog, Cat...">
+            </div>
+            <div>
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed" placeholder="Golden Retriever...">
+            </div>
+            <div>
+                <label>Disposition:</label>
+                <label><input type="checkbox" name="disposition" value="Good with children"> Good with children</label>
+                <label><input type="checkbox" name="disposition" value="Good with other animals"> Good with other animals</label>
+                <label><input type="checkbox" name="disposition" value="Animal must be leashed at all times"> Must be leashed</label>
+                <!-- Add more dispositions as needed -->
+            </div>
+            <div>
+                <label for="date_created">Date Posted:</label>
+                <input type="date" id="date_created" name="date_created">
+            </div>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
     <section class="daily-feed">
         <h2>Daily News Feed</h2>
         <div class="animal-list">
             {% for animal in latest_animals %}
                 <div class="animal">
                     <h3>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h3>
-                    <!-- Check if pic is not None and is a valid Base64 string -->
-                    {% if animal.pic %}
-                        <!-- Display the image by embedding the Base64 data -->
-                        <img src="data:image/jpeg;base64,{{ animal.pic }}" alt="Picture of {{ animal['type_name'] }}">
+                    {% if animal['pic'] %}
+                        <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}">
                     {% endif %}
                     <p>{{ animal['description'] }}</p>
                     <a href="{{ url_for('main_bp.profile', profile_id=animal['_id']) }}">View Profile</a>
                 </div>
+            {% else %}
+                <p>No animals found matching your search.</p>
             {% endfor %}
         </div>
     </section>
