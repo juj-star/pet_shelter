@@ -9,12 +9,22 @@
         <p>Address: {{ hooman.address }}</p>
         
         <h3>Adoption History</h3>
-        {% if hooman.adoption_history %}
-            <ul>
-                {% for adoption in hooman.adoption_history %}
-                    <li>(ID: {{ adoption }})</li>
+        {% if animal_profiles %}
+            <div class="animal-profiles">
+                {% for animal in animal_profiles %}
+                    <div class="animal-profile">
+                        <h4>{{ animal.type_name }} - {{ animal.breed_name }}</h4>
+                        {% if animal.pic %}
+                            <img src="data:image/jpeg;base64,{{ animal.pic }}" alt="Picture of {{ animal.type_name }}"> 
+                        {% else %}
+                            <p>No image available.</p>
+                        {% endif %}
+                        <p>Description: {{ animal.description }}</p>
+                        <p>Availability: {{ animal.availability }}</p>
+                        <!-- Add more details as needed -->
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p>No adoption history.</p>
         {% endif %}

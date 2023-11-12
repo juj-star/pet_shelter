@@ -191,3 +191,14 @@ def set_db_flag(flag_name, value):
         {'$set': {'value': value}},
         upsert=True
     )
+
+def get_adopted_animals():
+    """
+    Retrieves animal profiles from MongoDB where the 'availability' field is 'Adopted'.
+
+    Returns:
+        A list of dictionaries, where each dictionary represents an adopted animal profile.
+    """
+    adopted_animals_cursor = mongo.db.animal_profiles.find({'availability': 'Adopted'})
+    # Convert the cursor to a list and return
+    return list(adopted_animals_cursor)

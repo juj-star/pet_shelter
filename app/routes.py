@@ -182,18 +182,29 @@ def user_dashboard():
     if 'user_id' not in session:
         flash('You must be logged in to view this page.', 'danger')
         return redirect(url_for('main_bp.login'))
-    flash(f"Session: {session}", 'info')
+
     user_id = session['user_id']
-    flash(f"User ID: {user_id}", 'info')
-    # Assume you have a function named `find_hooman_by_id` to retrieve the user information.
     hooman = find_hooman_by_id(user_id)
     if hooman is None:
         flash('Hooman not found.', 'danger')
         return redirect(url_for('main_bp.index'))
 
+    # Retrieve the animal profiles from the adoption history
+    adoption_history = hooman.get('adoption_history', [])
+    animal_profiles = []
+    for profile_id in adoption_history:
+        animal = find_animal_profile(profile_id)
+        if animal:
+            animal_profiles.append(animal)
+
+    # Optionally, convert binary images to Base64 for rendering if they're stored as binaries
+    for animal in animal_profiles:
+        if 'pic' in animal and isinstance(animal['pic'], bytes):
+            animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
+
     # Perform any additional processing needed for the hooman's data
 
-    return render_template('user_dashboard.html', hooman=hooman)
+    return render_template('user_dashboard.html', hooman=hooman, animal_profiles=animal_profiles)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -353,9 +364,7 @@ def admin_animal_dashboard():
     if not user_id:
         flash('You must be logged in to view this page.', 'warning')
         return redirect(url_for('main_bp.login'))
-    else:
-        flash(f'User ID obtained from session: {user_id}', 'debug')  # Debugging message
-
+    
     user = find_hooman_by_id(user_id)
     if user is None:
         flash('User not found in the database.', 'danger')
@@ -363,29 +372,27 @@ def admin_animal_dashboard():
     elif not user.get('is_admin'):
         flash('The user is not authorized as an admin.', 'danger')
         return redirect(url_for('main_bp.index'))
-    else:
-        flash('Admin user verified.', 'debug')  # Debugging message
+    
+    flash('Admin user verified.', 'debug')  # Debugging message
 
     # Fetch animals grouped by their availability
     pending_animals_list = get_pending_animals()
-    available_animals_list = get_available_animals()  # Assuming you have this function as well
+    available_animals_list = get_available_animals()
     unavailable_animals_list = get_unavailable_animals()
+    adopted_animals_list = get_adopted_animals()  # You will need to implement this function
 
-    for animal_list in (pending_animals_list, available_animals_list, unavailable_animals_list):
+    # Convert image data to Base64 string for all animal lists
+    for animal_list in (pending_animals_list, available_animals_list, unavailable_animals_list, adopted_animals_list):
         for animal in animal_list:
             if animal.get('pic'):
-                # Ensure the image data is a string in Base64 format
                 animal['pic'] = b64encode(animal['pic']).decode('utf-8')
 
-    flash(f'Pending Animals: {len(pending_animals_list)} found.', 'debug')  # Debugging message
-    flash(f'Available Animals: {len(available_animals_list)} found.', 'debug')  # Debugging message
-    flash(f'Unavailable Animals: {len(unavailable_animals_list)} found.', 'debug')  # Debugging message
-
-    # Pass the sorted lists to the template
+    # Pass the lists to the template, including the new adopted animals list
     return render_template('admin_animal_dashboard.html', 
                            pending_animals=pending_animals_list,
                            available_animals=available_animals_list,
-                           unavailable_animals=unavailable_animals_list)
+                           unavailable_animals=unavailable_animals_list,
+                           adopted_animals=adopted_animals_list)  # Add adopted animals to context
 
 @main_bp.route('/edit_animal/<animal_id>', methods=['GET', 'POST'])
 def edit_animal(animal_id):
