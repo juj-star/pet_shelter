@@ -14,3 +14,22 @@ First, clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/juj-star/pet_shelter.git
+```
+
+Change directory to the project:
+
+```bash
+cd pet_shelter
+```
+
+Build the Docker containers:
+
+```bash
+docker-compose build
+```
+
+Start Docker containers:
+
+```bash
+docker-compose up
+```
