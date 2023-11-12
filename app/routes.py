@@ -408,21 +408,25 @@ def edit_animal(animal_id):
             'type_name': type_name,
             'breed_name': breed_name,
             'dispositions': dispositions,
-            'description': description
+            'description': description,
+            'availability': availability  # Update availability regardless of its previous state
         }
-        
+
         # If the animal's availability is set to "Adopted"
         if availability == 'Adopted':
-            update_data['availability'] = availability
             flash('The animal has been successfully adopted.', 'success')
-        # If the animal's availability changes to "Available" or "Unavailable"
-        elif availability in ['Available', 'Unavailable'] and animal['availability'] == 'Adopted':
-            update_data['availability'] = availability
-            # Clear the animal's adoption_hooman field
+
+        # Clear the animal's adoption_hooman field if necessary
+        if availability in ['Available', 'Unavailable']:
             update_data['adoption_hooman'] = None
-            # Retrieve the hooman's profile to clear the adoption history
-            if 'adoption_hooman' in animal:
-                hooman_id = animal['adoption_hooman']
+
+        # Update the animal profile in the database
+        update_animal_profile(animal_id, update_data)
+
+        # If the animal was previously "Adopted" or "Pending" and is now being changed, update the hooman's adoption history
+        if animal['availability'] in ['Adopted', 'Pending']:
+            hooman_id = animal.get('adoption_hooman')
+            if hooman_id:
                 hooman = find_hooman(hooman_id)
                 if hooman:
                     adoption_history = hooman.get('adoption_history', [])
@@ -431,8 +435,6 @@ def edit_animal(animal_id):
                         update_hooman(hooman_id, {'adoption_history': adoption_history})
                         flash('The animal’s adoption status has been updated and the hooman’s adoption history has been cleared.', 'info')
 
-        # Update the animal profile in the database
-        update_animal_profile(animal_id, update_data)
         return redirect(url_for('main_bp.admin_animal_dashboard'))
 
     # Render the edit page with the animal data pre-filled
