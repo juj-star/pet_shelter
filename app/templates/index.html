@@ -9,8 +9,7 @@
     <section class="daily-feed">
         <h2>Daily News Feed</h2>
         {% if latest_animals %}
-            <!-- Assume latest_animals is a dict with dates as keys and animal lists as values -->
-            {% for date, animals_on_date in latest_animals|dictsort(false, 'key') %}
+            {% for date, animals_on_date in latest_animals %}
                 <div class="date-group">
                     <h3>Posted on: {{ date }}</h3>
                     <div class="animal-list">

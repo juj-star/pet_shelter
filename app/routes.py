@@ -31,16 +31,17 @@ def index():
         formatted_date = date_created.strftime('%Y-%m-%d')
         animals_by_date[formatted_date].append(animal)
 
-    # Sort by date descending
-    latest_animals = dict(sorted(animals_by_date.items(), key=lambda item: item[0], reverse=True))
+    # Sort dates in descending order to get the newest first
+    sorted_animals_by_date = sorted(animals_by_date.items(), key=lambda x: x[0], reverse=True)
 
-    # If you're storing images as binary data, convert them to Base64 strings
-    for date, animals in latest_animals.items():
+    # Convert binary image data to Base64 strings for HTML display
+    for _, animals in sorted_animals_by_date:
         for animal in animals:
             if 'pic' in animal and isinstance(animal['pic'], bytes):
+                # Convert binary data to Base64 string for embedding in HTML
                 animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
 
-    return render_template('index.html', latest_animals=latest_animals)
+    return render_template('index.html', latest_animals=sorted_animals_by_date)
 
 @main_bp.route('/profile/<profile_id>')
 def profile(profile_id):
@@ -251,14 +252,24 @@ def add_animal_profile():
         try:
             # Extract form data
             type_name = request.form['type_name']
-            breed_name = request.form['breed_name']
+            breed_name = request.form['breed_name'].strip()  # Use .strip() to remove any leading/trailing whitespace
             dispositions = request.form.getlist('dispositions')  # This will be a list of checked dispositions
             pic = request.files['pic']
             availability = request.form['availability']
-            description = request.form['description']
+            description = request.form['description'].strip()  # Use .strip() to remove any leading/trailing whitespace
+
+            # Validate inputs as needed, e.g., check if breed_name is not empty
+            if not breed_name:
+                flash('Breed name cannot be empty.', 'warning')
+                return render_template('add_animal_profile.html')
 
             # Convert the image to binary data
             pic_binary = binary.Binary(pic.read())
+
+            # Additional logic might be necessary if "Adopted" availability requires special handling
+            if availability == 'Adopted':
+                # Implement any special processing for adopted animals
+                pass
 
             # Construct the animal profile document
             animal_profile_document = {
