@@ -33,3 +33,53 @@ Start Docker containers:
 ```bash
 docker-compose up
 ```
+
+### Accessing the website
+
+Enter this in your browser's address bar:
+
+[localhost:8000](localhost:8000)
+
+### Stopping the application
+
+You can of course quit docker to stop the containers.  You can also use this docker command:
+
+```bash
+docker-compose down
+```
+
+### Tips
+
+#### Admin 
+
+The admin username and password is admin:admin
+
+#### Deleting the database
+
+If you would like to delete the database and start fresh, first stop the containers:
+
+```bash
+docker-compose down
+```
+
+Navigate to the Volumes list in Docker Desktop.  Select and delete the volume named "pet_shelter_mongodb_data".
+
+Rebuild the containers:
+
+```bash
+docker-compose build
+```
+
+Start the containers again:
+
+```bash
+docker-compose up
+```
+
+#### Creating test users
+
+To create test users, go to this endpoint:
+
+[localhost:8000/generate_test_users](localhost:8000/generate_test_users)
+
+This will create 10 test users.  The password for all test users is "password".  Be careful while using this endpoint since each time you access it will create 10 users.
