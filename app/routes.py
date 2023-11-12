@@ -313,8 +313,11 @@ def adopt_animal(profile_id):
         flash('This animal is not available for adoption.', 'warning')
         return redirect(url_for('main_bp.profile', profile_id=profile_id))
 
-    # Set animal's availability to 'Pending'
-    update_data = {'availability': 'Pending'}
+    # Set animal's availability to 'Pending' and assign the hooman's ID
+    update_data = {
+        'availability': 'Pending',
+        'adoption_hooman': user_id  # Set the hooman profile ID to the animal
+    }
     update_animal_profile(profile_id, update_data)
     
     # Add the animal to the user's adoption history
@@ -323,6 +326,7 @@ def adopt_animal(profile_id):
         adoption_history = hooman.get('adoption_history', [])
         adoption_history.append(profile_id)
         update_hooman(user_id, {'adoption_history': adoption_history})
+        
         flash('Adoption request submitted. Waiting for approval.', 'success')
     else:
         flash('User not found.', 'danger')
@@ -399,16 +403,36 @@ def edit_animal(animal_id):
         availability = request.form['availability']
         description = request.form['description']
 
+        # Prepare the update data for the animal profile
         update_data = {
             'type_name': type_name,
             'breed_name': breed_name,
             'dispositions': dispositions,
-            'availability': availability,
             'description': description
         }
+        
+        # If the animal's availability is set to "Adopted"
+        if availability == 'Adopted':
+            update_data['availability'] = availability
+            flash('The animal has been successfully adopted.', 'success')
+        # If the animal's availability changes to "Available" or "Unavailable"
+        elif availability in ['Available', 'Unavailable'] and animal['availability'] == 'Adopted':
+            update_data['availability'] = availability
+            # Clear the animal's adoption_hooman field
+            update_data['adoption_hooman'] = None
+            # Retrieve the hooman's profile to clear the adoption history
+            if 'adoption_hooman' in animal:
+                hooman_id = animal['adoption_hooman']
+                hooman = find_hooman(hooman_id)
+                if hooman:
+                    adoption_history = hooman.get('adoption_history', [])
+                    if animal_id in adoption_history:
+                        adoption_history.remove(animal_id)
+                        update_hooman(hooman_id, {'adoption_history': adoption_history})
+                        flash('The animal’s adoption status has been updated and the hooman’s adoption history has been cleared.', 'info')
+
         # Update the animal profile in the database
         update_animal_profile(animal_id, update_data)
-        flash('Animal profile updated successfully.', 'success')
         return redirect(url_for('main_bp.admin_animal_dashboard'))
 
     # Render the edit page with the animal data pre-filled
@@ -506,8 +530,6 @@ def search_animal_breed():
         flash('Please enter a breed to search for.', 'warning')
 
     return redirect(url_for('main_bp.admin_animal_dashboard'))
-
-from flask import request
 
 @main_bp.route('/search_animals', methods=['GET'])
 def search_animals():

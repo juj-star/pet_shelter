@@ -26,6 +26,10 @@
         <option value="Available" {% if animal['availability'] == 'Available' %}selected{% endif %}>Available</option>
         <option value="Pending" {% if animal['availability'] == 'Pending' %}selected{% endif %}>Pending</option>
         <option value="Unavailable" {% if animal['availability'] == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+        <!-- Show Adopted option only if current status is Pending -->
+        {% if animal['availability'] == 'Pending' %}
+        <option value="Adopted" {% if animal['availability'] == 'Adopted' %}selected{% endif %}>Adopted</option>
+        {% endif %}
     </select>
 
     <label for="description">Description:</label>
