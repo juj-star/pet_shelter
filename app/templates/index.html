@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Welcome to the Pet Shelter</h1>
+<div class="container">
+    <header>
+        <div id="branding">
+            <h1>Welcome to the Pet Shelter</h1>
+        </div>
+        <nav>
+            <!-- ... [existing navigation links] ... -->
+        </nav>
+    </header>
 
-    <!-- Search form with separate fields -->
     <!-- ... [existing search form code] ... -->
 
     <section class="daily-feed">
@@ -17,7 +24,7 @@
                             <div class="animal">
                                 <h4>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h4>
                                 {% if animal['pic'] %}
-                                    <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}" height="100">
+                                    <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}">
                                 {% else %}
                                     <p>No image available.</p>
                                 {% endif %}
@@ -32,4 +39,5 @@
             <p>No animals found.</p>
         {% endif %}
     </section>
+</div>
 {% endblock %}

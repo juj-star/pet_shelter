@@ -373,8 +373,6 @@ def admin_animal_dashboard():
         flash('The user is not authorized as an admin.', 'danger')
         return redirect(url_for('main_bp.index'))
     
-    flash('Admin user verified.', 'debug')  # Debugging message
-
     # Fetch animals grouped by their availability
     pending_animals_list = get_pending_animals()
     available_animals_list = get_available_animals()

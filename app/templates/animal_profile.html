@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="animal-profile-container">
     <h1>Animal Profile</h1>
     <div class="animal-profile">
         <h2>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h2>
@@ -16,10 +17,14 @@
         <!-- Adopt button (only show if the animal is available and the user is logged in) -->
         {% if animal['availability'] == 'Available' and 'user_id' in session %}
             <form action="{{ url_for('main_bp.adopt_animal', profile_id=animal['_id']) }}" method="post">
-                <input type="submit" value="Adopt" />
+                <button type="submit" class="btn adopt-btn">Adopt</button>
             </form>
         {% endif %}
 
-        <a href="{{ url_for('main_bp.index') }}">Back to News Feed</a>
+        <!-- Back to News Feed button -->
+        <form action="{{ url_for('main_bp.index') }}" method="get">
+            <button type="submit" class="btn back-btn">Back to News Feed</button>
+        </form>
     </div>
+</div>
 {% endblock %}
