@@ -10,6 +10,9 @@
         <p>Breed: {{ search_query.breed or 'Any' }}</p>
         <p>Disposition: {{ search_query.disposition or 'Any' }}</p>
         <p>Date Posted: {{ search_query.date_created or 'Any' }}</p>
+        <form action="{{ url_for('main_bp.admin_animal_dashboard') }}" method="get">
+            <button type="submit">Back to Dashboard</button>
+        </form>
     </div>
 
     <!-- Display the results -->
@@ -30,6 +33,14 @@
                         <p><strong>Availability:</strong> {{ animal['availability'] }}</p>
                         <p><strong>Date Posted:</strong> {{ animal['date_created'] }}</p>
                         <!-- Add more details as needed -->
+                        
+                        <!-- Buttons for editing or deleting an animal -->
+                        <form action="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}" method="get">
+                            <button type="submit">Edit</button>
+                        </form>
+                        <form action="{{ url_for('main_bp.delete_animal', animal_id=animal['_id']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this animal?');">
+                            <button type="submit">Delete</button>
+                        </form>
                     </div>
                 {% endfor %}
             </div>
@@ -38,6 +49,7 @@
         {% endif %}
     </section>
 
-    <!-- Link to go back to the search page or dashboard -->
-    <a href="{{ url_for('main_bp.admin_animal_dashboard') }}">Back to Dashboard</a>
+    <form action="{{ url_for('main_bp.admin_animal_dashboard') }}" method="get" class="back-to-dashboard">
+        <button type="submit">Back to Dashboard</button>
+    </form>
 {% endblock %}
