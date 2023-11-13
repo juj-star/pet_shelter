@@ -21,10 +21,8 @@
             </form>
         {% endif %}
 
-        <!-- Back to News Feed button -->
-        <form action="{{ url_for('main_bp.index') }}" method="get">
-            <button type="submit" class="btn back-btn">Back to News Feed</button>
-        </form>
+        <!-- Back button -->
+        <button type="button" class="btn back-btn" onclick="history.back()">Back</button>
     </div>
 </div>
 {% endblock %}

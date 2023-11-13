@@ -409,44 +409,40 @@ def edit_animal(animal_id):
         availability = request.form['availability']
         description = request.form['description']
 
-        # Prepare the update data for the animal profile
+        previous_availability = animal['availability']
+        previous_hooman_id = animal.get('adoption_hooman')
+
         update_data = {
             'type_name': type_name,
             'breed_name': breed_name,
             'dispositions': dispositions,
             'description': description,
-            'availability': availability  # Update availability regardless of its previous state
+            'availability': availability
         }
 
-        previous_availability = animal['availability']
+        # Check if availability is changing to 'Adopted'
+        if availability == 'Adopted' and previous_availability == 'Pending':
+            update_data['availability'] = 'Adopted'
+            update_animal_profile(animal_id, update_data)
+            flash('The animal has been successfully adopted.', 'success')
+        elif previous_availability in ['Adopted', 'Pending'] and availability == 'Available':
+            update_data['adoption_hooman'] = None
+            # Update the animal's availability and clear the adoption hooman field
+            update_animal_profile(animal_id, update_data)
 
-        # Update the animal profile in the database
-        update_animal_profile(animal_id, update_data)
+            if previous_hooman_id:
+                hooman = find_hooman(previous_hooman_id)
+                if hooman:
+                    adoption_history = hooman.get('adoption_history', [])
+                    # Remove the animal ID from the hooman's adoption history
+                    if animal_id in adoption_history:
+                        adoption_history.remove(animal_id)
+                        update_hooman(previous_hooman_id, {'adoption_history': adoption_history})
+                        flash('Animal is now available for adoption, and hooman’s adoption history has been updated.', 'info')
 
-        # Check for changes in availability
-        if availability != previous_availability:
-            # If the animal's availability was set to "Adopted"
-            if availability == 'Adopted':
-                flash('The animal has been successfully adopted.', 'success')
-
-            # If the animal's availability is changing away from "Adopted"
-            if previous_availability == 'Adopted' and availability != 'Adopted':
-                # Clear the animal's adoption_hooman field
-                update_data['adoption_hooman'] = None
-                # Update the hooman's adoption history
-                hooman_id = animal.get('adoption_hooman')
-                if hooman_id:
-                    hooman = find_hooman(hooman_id)
-                    if hooman:
-                        adoption_history = hooman.get('adoption_history', [])
-                        if animal_id in adoption_history:
-                            adoption_history.remove(animal_id)
-                            update_hooman(hooman_id, {'adoption_history': adoption_history})
-                            flash('The animal’s adoption status has been updated and the hooman’s adoption history has been cleared.', 'info')
-            elif availability in ['Available', 'Unavailable']:
-                # Additionally clear the adoption_hooman field if the animal is now available or unavailable
-                update_data['adoption_hooman'] = None
-                update_animal_profile(animal_id, {'adoption_hooman': None})
+        else:
+            # For other status changes, just update the profile without modifying the adoption hooman
+            update_animal_profile(animal_id, update_data)
 
         return redirect(url_for('main_bp.admin_animal_dashboard'))
 
