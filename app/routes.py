@@ -511,51 +511,20 @@ def edit_user(user_id):
 
     return render_template('edit_user.html', user=user)
 
-@main_bp.route('/search_animal_type', methods=['POST'])
-def search_animal_type():
-    # Admin check here
-    # ...
-
-    search_term = request.form.get('type_name')
-    if search_term:
-        # Assuming get_animals_by_type is a function that queries the database for animals by type
-        animals_by_type = get_animals_by_type(search_term)
-        if animals_by_type:
-            flash(f'Found {len(animals_by_type)} animals of type "{search_term}".', 'success')
-        else:
-            flash('No animals found with the specified type.', 'info')
-    else:
-        flash('Please enter a type to search for.', 'warning')
-
-    return redirect(url_for('main_bp.admin_animal_dashboard'))
-
-@main_bp.route('/search_animal_breed', methods=['POST'])
-def search_animal_breed():
-    # Admin check here
-    # ...
-
-    search_term = request.form.get('breed_name')
-    if search_term:
-        # Assuming get_animals_by_breed is a function that queries the database for animals by breed
-        animals_by_breed = get_animals_by_breed(search_term)
-        if animals_by_breed:
-            flash(f'Found {len(animals_by_breed)} animals of breed "{search_term}".', 'success')
-        else:
-            flash('No animals found with the specified breed.', 'info')
-    else:
-        flash('Please enter a breed to search for.', 'warning')
-
-    return redirect(url_for('main_bp.admin_animal_dashboard'))
-
 @main_bp.route('/search_animals', methods=['GET'])
 def search_animals():
+    # Ensure the user is an admin
+    if 'is_admin' not in session or not session['is_admin']:
+        flash('You must be an administrator to access this page.', 'danger')
+        return redirect(url_for('main_bp.login'))
+
     # Extract search parameters from the request
     type_name = request.args.get('type')
     breed_name = request.args.get('breed')
-    dispositions = request.args.getlist('disposition')  # Gets all values for 'disposition' checkbox
+    dispositions = request.args.getlist('disposition')
     date_created = request.args.get('date_created')
 
-    # Construct a query based on the provided parameters
+    # Construct the query
     query = {}
     if type_name:
         query['type_name'] = {'$regex': type_name, '$options': 'i'}
@@ -564,10 +533,21 @@ def search_animals():
     if dispositions:
         query['dispositions'] = {'$in': dispositions}
     if date_created:
-        # Assuming date_created is stored in ISO format (YYYY-MM-DD)
-        query['date_created'] = {'$gte': date_created, '$lte': f"{date_created}T23:59:59.999Z"}
+        query['date_created'] = {'$gte': f"{date_created}T00:00:00Z", '$lte': f"{date_created}T23:59:59.999Z"}
 
-    # Assuming get_animals_by_query is a function that queries the database using the constructed query
+    # Execute the query
     matching_animals = get_animals_by_query(query)
-    
-    return render_template('index.html', latest_animals=matching_animals)
+
+    # Convert binary image data to base64 strings
+    for animal in matching_animals:
+        if 'pic' in animal and isinstance(animal['pic'], bytes):
+            animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
+
+    # Render the search results page
+    return render_template('search_results.html', animals=matching_animals,
+                           search_query={
+                               'type': type_name,
+                               'breed': breed_name,
+                               'disposition': dispositions,
+                               'date_created': date_created
+                           })

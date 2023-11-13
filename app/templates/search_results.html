@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    
+    <!-- Display the search query -->
+    <div>
+        <h2>Search Query:</h2>
+        <p>Type: {{ search_query.type or 'Any' }}</p>
+        <p>Breed: {{ search_query.breed or 'Any' }}</p>
+        <p>Disposition: {{ search_query.disposition or 'Any' }}</p>
+        <p>Date Posted: {{ search_query.date_created or 'Any' }}</p>
+    </div>
+
+    <!-- Display the results -->
+    <section class="search-results">
+        {% if animals %}
+            <h2>Found {{ animals|length }} animals matching your search:</h2>
+            <div class="animal-list">
+                {% for animal in animals %}
+                    <div class="animal">
+                        <h3>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h3>
+                        {% if animal['pic'] %}
+                            <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}">
+                        {% else %}
+                            <p>No image available.</p>
+                        {% endif %}
+                        <p><strong>Description:</strong> {{ animal['description'] }}</p>
+                        <p><strong>Dispositions:</strong> {{ ', '.join(animal['dispositions']) }}</p>
+                        <p><strong>Availability:</strong> {{ animal['availability'] }}</p>
+                        <p><strong>Date Posted:</strong> {{ animal['date_created']|date:"%Y-%m-%d" }}</p>
+                        <!-- Add more details as needed -->
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No animals found matching your search.</p>
+        {% endif %}
+    </section>
+
+    <!-- Link to go back to the search page or dashboard -->
+    <a href="{{ url_for('main_bp.admin_animal_dashboard') }}">Back to Dashboard</a>
+{% endblock %}
