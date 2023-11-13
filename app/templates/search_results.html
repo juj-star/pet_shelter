@@ -28,7 +28,7 @@
                         <p><strong>Description:</strong> {{ animal['description'] }}</p>
                         <p><strong>Dispositions:</strong> {{ ', '.join(animal['dispositions']) }}</p>
                         <p><strong>Availability:</strong> {{ animal['availability'] }}</p>
-                        <p><strong>Date Posted:</strong> {{ animal['date_created']|date('%Y-%m-%d') }}</p>
+                        <p><strong>Date Posted:</strong> {{ animal['date_created'].strftime('%Y-%m-%d') }}</p>
                         <!-- Add more details as needed -->
                     </div>
                 {% endfor %}
