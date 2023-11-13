@@ -23,10 +23,12 @@ def index():
     animals_cursor = get_all_animals()
     animals_list = list(animals_cursor)
 
-    # Group animals by date, ignoring the time of day
+    # Filter out animals with 'Adopted' or 'Unavailable' status
+    filtered_animals = [animal for animal in animals_list if animal['availability'] not in ['Adopted', 'Unavailable']]
+
+    # Group filtered animals by date, ignoring the time of day
     animals_by_date = defaultdict(list)
-    for animal in animals_list:
-        # Adjusted to handle fractional seconds (microseconds)
+    for animal in filtered_animals:
         date_created = datetime.strptime(animal['date_created'], "%Y-%m-%dT%H:%M:%S.%f").date()
         formatted_date = date_created.strftime('%Y-%m-%d')
         animals_by_date[formatted_date].append(animal)
@@ -38,7 +40,6 @@ def index():
     for _, animals in sorted_animals_by_date:
         for animal in animals:
             if 'pic' in animal and isinstance(animal['pic'], bytes):
-                # Convert binary data to Base64 string for embedding in HTML
                 animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
 
     return render_template('index.html', latest_animals=sorted_animals_by_date)
