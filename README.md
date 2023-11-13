@@ -83,3 +83,11 @@ To create test users, go to this endpoint:
 [localhost:8000/generate_test_users](localhost:8000/generate_test_users)
 
 This will create 10 test users.  The password for all test users is "password".  Be careful while using this endpoint since each time you access it will create 10 users.
+
+#### Syncing up changes being made to the repo
+
+The code changes to the repo is very active at times, to sync up the changes go to the project directory and:
+
+```bash
+git pull
+```
