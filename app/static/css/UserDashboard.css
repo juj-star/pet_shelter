@@ -3,65 +3,71 @@
 .user-dashboard-title {
     text-align: center;
     color: #333;
-    margin-bottom: 30px; /* Space below the dashboard title */
+    margin: 20px 0;
 }
 
 .user-welcome-message {
     text-align: center;
     color: #333;
-    margin-bottom: 15px; /* Space below the welcome message */
+    margin: 10px 0;
+}
+
+.user-details {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
 .user-adoption-history-title {
+    text-align: center;
     color: #333;
-    margin-top: 30px; /* Space above the adoption history title */
-    margin-bottom: 20px; /* Space below the adoption history title */
+    margin-top: 30px;
 }
 
 .user-animal-profiles {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around; /* Evenly space out the animal profiles */
-    gap: 20px; /* Space between each profile */
+    justify-content: space-around;
+    gap: 20px;
+    max-width: 800px;
+    margin: 20px auto;
 }
 
-.user-animal-profile {
-    width: calc(33.333% - 20px); /* Three profiles per row with gap accounted */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden; /* Ensure that child elements do not break the border radius */
+.animal-profile {
+    width: calc(50% - 20px); /* Show two profiles per row */
     background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    margin-bottom: 20px; /* Space below each profile */
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.user-animal-profile h4 {
-    color: #333;
-    margin-bottom: 10px; /* Space below the animal type and breed name */
+.animal-profile h4 {
+    margin-bottom: 10px;
 }
 
-.user-animal-profile img {
+.animal-profile img {
     max-width: 100%;
     height: auto;
-    margin-bottom: 10px; /* Space below the image */
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
-.user-animal-profile p {
+.animal-profile p {
     font-size: 0.9em;
-    line-height: 1.5;
+    line-height: 1.4;
     color: #666;
-    margin-bottom: 8px; /* Space between paragraphs */
+    margin-bottom: 8px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .user-animal-profile {
-        width: calc(50% - 20px); /* Two profiles per row on smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .user-animal-profile {
-        width: 100%; /* One profile per column on mobile screens */
+    .animal-profile {
+        width: 100%; /* Full width profiles on smaller screens */
     }
 }
