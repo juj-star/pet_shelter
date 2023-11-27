@@ -1,0 +1,78 @@
+/* AdminDashboard.css */
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px; /* Space below the dashboard title */
+}
+
+/* Style the search form */
+form {
+    max-width: 300px;
+    margin: 20px auto; /* Center the form */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+form label,
+form input[type="text"],
+form input[type="submit"] {
+    margin-bottom: 10px; /* Space between form items */
+}
+
+form input[type="text"],
+form input[type="submit"] {
+    padding: 8px;
+    border: 1px solid #ddd; /* Subtle border for inputs */
+    border-radius: 4px;
+}
+
+form input[type="submit"] {
+    background-color: #9fdc9f; /* Theme color for submit button */
+    color: white;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #8ecc8e; /* Slightly darker on hover */
+}
+
+.user-profile {
+    background-color: #fff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+    padding: 15px;
+    margin: 10px 0; /* Space between user profiles */
+}
+
+.user-profile p {
+    font-size: 0.9em;
+    line-height: 1.4;
+    color: #666; /* Muted text color */
+    margin-bottom: 5px; /* Space between paragraphs */
+}
+
+.user-profile form {
+    margin-top: 10px; /* Space above the buttons */
+    display: inline-block; /* Place buttons next to each other */
+}
+
+.user-profile button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 5px; /* Space between buttons */
+    background-color: #9fdc9f; /* Theme color for buttons */
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.user-profile button:hover {
+    background-color: #8ecc8e; /* Slightly darker on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .user
