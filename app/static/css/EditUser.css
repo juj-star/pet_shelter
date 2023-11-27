@@ -1,0 +1,77 @@
+/* EditUser.css */
+
+.edit-user-title h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.edit-user-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-input,
+.form-checkbox {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.form-checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.form-checkbox {
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: #9fdc9f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block; /* Make the button block level for full width */
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.btn-primary:hover {
+    background-color: #8ecc8e;
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: white;
+    text-align: center;
+    display: block; /* Align cancel button */
+    margin: 10px auto; /* Center the button */
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline from the link */
+    width: auto;
+}
+
+.btn-secondary:hover {
+    background-color: #bbb;
+}
