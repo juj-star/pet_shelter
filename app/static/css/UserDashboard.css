@@ -1,31 +1,31 @@
 /* UserDashboard.css */
 
-h1 {
+.user-dashboard-title {
     text-align: center;
     color: #333;
     margin-bottom: 30px; /* Space below the dashboard title */
 }
 
-h2 {
+.user-welcome-message {
     text-align: center;
     color: #333;
     margin-bottom: 15px; /* Space below the welcome message */
 }
 
-h3 {
+.user-adoption-history-title {
     color: #333;
     margin-top: 30px; /* Space above the adoption history title */
     margin-bottom: 20px; /* Space below the adoption history title */
 }
 
-.animal-profiles {
+.user-animal-profiles {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around; /* Evenly space out the animal profiles */
     gap: 20px; /* Space between each profile */
 }
 
-.animal-profile {
+.user-animal-profile {
     width: calc(33.333% - 20px); /* Three profiles per row with gap accounted */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -35,18 +35,18 @@ h3 {
     margin-bottom: 20px; /* Space below each profile */
 }
 
-.animal-profile h4 {
+.user-animal-profile h4 {
     color: #333;
     margin-bottom: 10px; /* Space below the animal type and breed name */
 }
 
-.animal-profile img {
+.user-animal-profile img {
     max-width: 100%;
     height: auto;
     margin-bottom: 10px; /* Space below the image */
 }
 
-.animal-profile p {
+.user-animal-profile p {
     font-size: 0.9em;
     line-height: 1.5;
     color: #666;
@@ -55,13 +55,13 @@ h3 {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .animal-profile {
+    .user-animal-profile {
         width: calc(50% - 20px); /* Two profiles per row on smaller screens */
     }
 }
 
 @media (max-width: 480px) {
-    .animal-profile {
+    .user-animal-profile {
         width: 100%; /* One profile per column on mobile screens */
     }
 }

@@ -14,23 +14,24 @@ body {
     min-height: 100vh; /* Make sure the body takes at least the full viewport height */
 }
 
-/* Header and Footer with identical styles */
-.header, .footer {
+/* Header with flexbox layout for internal alignment */
+.header {
     width: 100%;
     background-color: #333;
     color: white;
-    padding: 15px;
-    display: flex; /* Use flexbox for internal alignment */
-    justify-content: space-between; /* Push the logo and the nav to opposite ends */
+    padding: 15px 20px; /* Adjusted padding for consistent spacing */
+    display: flex;
+    justify-content: space-between; /* Space between logo and navigation */
     align-items: center;
 }
 
+/* Footer with flexbox layout for content alignment */
 .footer {
     width: 100%;
     background-color: #333;
     color: white;
     padding: 15px;
-    display: flex; /* Flexbox layout */
+    display: flex;
     justify-content: center; /* Horizontally center content */
     align-items: center; /* Vertically center content */
     text-align: center; /* Center text for inline or inline-block elements */
@@ -45,9 +46,8 @@ body {
 .logo-text {
     color: #9fdc9f; /* Green color */
     font-weight: bold;
-    font-size: 1.2em; /* Make the logo smaller */
+    font-size: 1.2em; /* Adjusted logo size */
     text-decoration: none;
-    margin-left: 20px;
 }
 
 .logo-text:hover {
@@ -64,14 +64,13 @@ body {
     display: flex;
     list-style: none;
     padding-left: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    width: 100%; /* Ensure the menu takes full width */
+    justify-content: center; /* Center the menu items */
 }
 
 .menu li {
-    margin-right: 20px; /* Margin to the right of each nav item */
-}
-
-.menu li:last-child {
-    margin-right: 0; /* No margin for the last item to align it properly to the edge */
+    padding: 0 15px; /* Add padding to each menu item for spacing */
 }
 
 .menu li a {
@@ -79,7 +78,11 @@ body {
     text-decoration: none;
 }
 
-/* Mission section */
+.menu li a:hover {
+    text-decoration: underline; /* Add underline on hover for visual feedback */
+}
+
+/* Mission section styling */
 .mission {
     width: 80%;
     max-width: 600px;

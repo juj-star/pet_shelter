@@ -19,8 +19,10 @@
                 <li><a href="{{ url_for('main_bp.join_us') }}">Join Us</a></li>
                 {% if 'user_id' in session %}
                     <li><a href="{{ url_for('main_bp.user_dashboard') }}">Dashboard</a></li>
+                    <!-- Check if the user is an admin and provide admin dashboard link -->
                     {% if session.get('is_admin', False) %}
-                        <li><a href="{{ url_for('main_bp.admin_only_view') }}">Admin Dashboard</a></li>
+                        <li><a href="{{ url_for('main_bp.admin_only_view') }}">User Admin Dashboard</a></li>
+                        <li><a href="{{ url_for('main_bp.admin_animal_dashboard') }}">Animal Admin Dashboard</a></li>
                     {% endif %}
                     <li><a href="{{ url_for('main_bp.logout') }}">Logout</a></li>
                 {% else %}

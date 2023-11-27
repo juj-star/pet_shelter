@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/EditAnimal.css') }}">
+<div class="edit-animal-form">
 <h1>Edit Animal Profile</h1>
 <form action="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}" method="post" enctype="multipart/form-data">
     <label for="type_name">Type:</label>
@@ -38,4 +40,5 @@
     <button type="submit">Update Profile</button>
 </form>
 <a href="{{ url_for('main_bp.admin_animal_dashboard') }}">Cancel and return to dashboard</a>
+</div>
 {% endblock %}

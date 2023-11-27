@@ -1,0 +1,120 @@
+/* AdminAnimalDashboard.css */
+
+.admin-dashboard-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px; /* Space below the dashboard title */
+}
+
+.search-section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-section form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.search-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.search-section input[type="text"],
+.search-section select,
+.search-section input[type="date"] {
+    width: calc(50% - 10px);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.search-section input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.search-section button {
+    padding: 10px 20px;
+    background-color: #9fdc9f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-section button:hover {
+    background-color: #8ecc8e;
+}
+
+.animal-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.animal {
+    width: calc(33.333% - 20px);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+}
+
+.animal h3 {
+    margin-bottom: 10px;
+}
+
+.animal img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.animal p {
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.animal button {
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #9fdc9f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.animal button:hover {
+    background-color: #8ecc8e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .animal {
+        width: calc(50% - 20px); /* Two profiles per row on smaller screens */
+    }
+
+    .search-section input[type="text"],
+    .search-section select,
+    .search-section input[type="date"] {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .animal {
+        width: 100%; /* One profile per column on mobile screens */
+    }
+}

@@ -2,14 +2,15 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/UserDashboard.css') }}">
-    <h1>User Dashboard</h1>
+<h1 class="user-dashboard-title">User Dashboard</h1>
     <div>
-        <h2>Welcome, {{ hooman.name }}!</h2>
+        <h2 class="user-welcome-message">Welcome, {{ hooman.name }}!</h2>
         <p>Email: {{ hooman.email }}</p>
         <p>Phone: {{ hooman.phone }}</p>
         <p>Address: {{ hooman.address }}</p>
         
-        <h3>Adoption History</h3>
+        <h3 class="user-adoption-history-title">Adoption History</h3>
+        <div class="user-animal-profiles"></div>
         {% if animal_profiles %}
             <div class="animal-profiles">
                 {% for animal in animal_profiles %}
@@ -26,6 +27,7 @@
                     </div>
                 {% endfor %}
             </div>
+        </div>
         {% else %}
             <p>No adoption history.</p>
         {% endif %}
