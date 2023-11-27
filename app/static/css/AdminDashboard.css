@@ -75,4 +75,7 @@ form input[type="submit"]:hover {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .user
+    .user-profile {
+        margin-bottom: 20px; /* More space between user profiles on smaller screens */
+    }
+}
