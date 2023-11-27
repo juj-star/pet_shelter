@@ -1,0 +1,62 @@
+/* JoinUs.css */
+
+.join-header {
+    color: white; /* Keep the header text white for contrast */
+    padding: 20px 0;
+    text-align: center;
+    margin-bottom: 30px; /* Space between the header and the content */
+}
+
+.join-header h1 {
+    margin: 0;
+    color: black; /* Change color to black */
+    font-size: 2em; /* Make the title a bit smaller */
+}
+
+.join-container {
+    width: 90%;
+    max-width: 750px; /* Narrower width for a focused content area */
+    margin: 0 auto 30px; /* Center the container and add bottom margin */
+    padding: 20px;
+    background-color: #fff; /* White background for readability */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center-align the text for this section */
+}
+
+.join-container h2 {
+    color: #333; /* Dark color for the heading */
+    margin-bottom: 20px; /* Space after the heading */
+    font-size: 1.5em;
+}
+
+.join-container p,
+.join-container a {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #666; /* Muted text color for paragraphs and links */
+    margin-bottom: 15px; /* Space after paragraphs */
+    display: block; /* Links will behave like block elements for better click area */
+}
+
+.join-container a {
+    color: #9fdc9f; /* Theme color for links */
+    text-decoration: none;
+    font-weight: bold; /* Make the email link bold */
+}
+
+.join-container a:hover {
+    text-decoration: underline;
+}
+
+.join-image {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.join-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

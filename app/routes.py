@@ -546,3 +546,11 @@ def search_animals():
                                'disposition': dispositions,
                                'date_created': date_created
                            })
+
+@main_bp.route('/about-us')
+def about_us():
+    return render_template('about_us.html')
+
+@main_bp.route('/join-us')
+def join_us():
+    return render_template('join_us.html')

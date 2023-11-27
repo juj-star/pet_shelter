@@ -1,0 +1,104 @@
+/* Reset some default styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Make sure the body takes at least the full viewport height */
+}
+
+/* Header and Footer with identical styles */
+.header, .footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    display: flex; /* Use flexbox for internal alignment */
+    justify-content: space-between; /* Push the logo and the nav to opposite ends */
+    align-items: center;
+}
+
+.footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Horizontally center content */
+    align-items: center; /* Vertically center content */
+    text-align: center; /* Center text for inline or inline-block elements */
+}
+
+/* Logo Styling */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    color: #9fdc9f; /* Green color */
+    font-weight: bold;
+    font-size: 1.2em; /* Make the logo smaller */
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.logo-text:hover {
+    text-decoration: underline;
+}
+
+/* Navigation Menu */
+.navbar {
+    display: flex;
+    justify-content: flex-end; /* Align nav items to the right */
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0; /* Remove default padding */
+}
+
+.menu li {
+    margin-right: 20px; /* Margin to the right of each nav item */
+}
+
+.menu li:last-child {
+    margin-right: 0; /* No margin for the last item to align it properly to the edge */
+}
+
+.menu li a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Mission section */
+.mission {
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px 0;
+}
+
+/* Image Styling */
+.image img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* Headings */
+h2 {
+    text-align: center;
+}

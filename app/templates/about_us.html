@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/AboutUs.css') }}">
+    <div class="container">
+        <h1>About Us</h1>
+        <p>Welcome to our pet dating app, where love knows no bounds, and where the journey to finding the perfect furry companion is as unique as the bond you'll share. We're passionate about creating meaningful connections between adoptive parents and pets, fostering bonds that last a lifetime.</p>
+        <h2>How It Works</h2>
+        <p>We understand that choosing the perfect pet is a big decision. That's why we've created a platform where adoptive parents can express their unique personalities and lifestyles through profiles, and where animals can share their heartwarming stories. Here's how we work:</p>
+        <ol>
+            <li>Create Your Profile: Adoptive parents create a profile, sharing details about their preferences, lifestyle, and expectations. This profile serves as a window to your heart, helping us understand your unique personality.</li>
+            <li>Meet Your Match: Our sophisticated matching algorithms work tirelessly to connect you with pets that match your lifestyle, preferences, and desires. It's like a compatibility test, but for you and your future furry friend.</li>
+            <li>Find Your Furry Companion: When you're ready to take the leap, you can schedule a meet-and-greet with the pet, and from there, the journey of love and companionship begins.</li>
+        </ol>
+    </div>
+{% endblock %}

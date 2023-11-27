@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <div class="container">
-    <header>
-        <div id="branding">
-            <h1>Welcome to the Pet Shelter</h1>
-        </div>
-        <nav>
-            <!-- ... [existing navigation links] ... -->
-        </nav>
-    </header>
+    <div class="mission">
+        <h2>Our mission</h2>
+        <p>
+            At Furever Match, we believe that every pet deserves a loving and forever home. Our mission is to make the adoption process a joyous and well-informed experience for both animals and humans. We aim to create a world where every wag of a tail and every purr is met with a loving heart, where compassion knows no species, and where every match is made in pet-lover's heaven.
+        </p>
+    </div>
+    <div class="image">
+        <!-- Use url_for to point to the correct location of your image in the static folder -->
+        <img src="{{ url_for('static', filename='assets/istockphoto-837572972-612x612.jpg') }}" alt="Dog Image">
+    </div>
 
     <!-- ... [existing search form code] ... -->
 

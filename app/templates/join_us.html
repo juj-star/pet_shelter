@@ -1,0 +1,15 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/JoinUs.css') }}">
+    <header class="join-header">
+        <h1>Join Us</h1>
+    </header>
+    <div class="join-container">
+        <h2>Would you like to work with us?</h2>
+        <p>Email us at <a href="mailto:jobs@furevermatch.com">jobs@furevermatch.com</a></p>
+    </div>
+    <div class="join-image">
+        <img src="{{ url_for('static', filename='assets/dogs-working.jpg') }}" alt="Dogs Working">
+    </div>
+{% endblock %}

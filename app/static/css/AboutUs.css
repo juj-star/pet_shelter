@@ -1,0 +1,45 @@
+/* AboutUs.css */
+
+.container {
+    width: 90%;
+    max-width: 1200px; /* Match the container width from the index.css */
+    margin: 30px auto; /* Center the container and give some top margin */
+    padding: 20px;
+    background-color: #fff; /* White background for readability */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Consistent shadow effect */
+    text-align: left; /* Align text to the left for the content */
+}
+
+.container h1 {
+    color: #333; /* Dark color for the heading */
+    text-align: center; /* Center-align the main heading */
+    margin-bottom: 20px; /* Space after the heading */
+}
+
+.container p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #666; /* Muted text color for paragraphs */
+    margin-bottom: 15px; /* Space after paragraphs */
+}
+
+.container h2 {
+    color: #333;
+    margin-top: 30px; /* Extra space before each new section heading */
+    margin-bottom: 10px; /* Space after the section heading */
+    font-size: 1.5em; /* Slightly larger font size for subheadings */
+}
+
+.container ol {
+    list-style-type: disc; /* Use disc for bullet points */
+    list-style-position: inside; /* Position bullets inside the content flow */
+    padding-left: 20px; /* Indent the list slightly */
+    margin-bottom: 20px; /* Space after the list */
+}
+
+.container li {
+    margin-bottom: 10px; /* Space between list items */
+    line-height: 1.6; /* Readability for list items */
+    color: #666; /* Muted text color for list items */
+}

@@ -1,0 +1,65 @@
+/* SignUpForm.css */
+
+.sign-up-form {
+    width: 90%;
+    max-width: 500px; /* Width of the form */
+    margin: 30px auto; /* Center the form on the page */
+    padding: 20px;
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Consistent shadow for depth */
+    text-align: center; /* Center-align the text for the header */
+}
+
+.sign-up-form h1 {
+    color: #333;
+    margin-bottom: 20px; /* Space below the form title */
+}
+
+.sign-up-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign-up-form label {
+    margin-bottom: 5px; /* Space above each input field */
+    text-align: left;
+    width: 100%; /* Full width labels for alignment */
+}
+
+.sign-up-form input[type="text"],
+.sign-up-form input[type="email"],
+.sign-up-form input[type="password"],
+.sign-up-form input[type="submit"] {
+    width: 90%; /* Full width input fields */
+    margin-bottom: 15px; /* Space between each field */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd; /* Light border for inputs */
+}
+
+.sign-up-form input[type="submit"] {
+    background-color: #9fdc9f; /* Theme color for submit button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.sign-up-form input[type="submit"]:hover {
+    background-color: #8ecc8e; /* Slightly darker on hover */
+}
+
+.sign-up-form div {
+    margin-top: 15px;
+}
+
+.sign-up-form a {
+    color: #9fdc9f; /* Theme color for links */
+    text-decoration: none;
+}
+
+.sign-up-form a:hover {
+    text-decoration: underline;
+}

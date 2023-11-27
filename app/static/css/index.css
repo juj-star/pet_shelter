@@ -1,0 +1,133 @@
+/* index.css */
+
+.container {
+    width: 90%;
+    max-width: 1200px; /* Set a max-width for larger screens */
+    margin: 0 auto; /* Center the container */
+    padding-top: 20px; /* Add some spacing at the top */
+}
+
+.mission {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.mission h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.mission p {
+    font-size: 1em;
+    line-height: 1.6; /* Improve readability */
+    color: #666; /* Slightly muted text color */
+}
+
+.image {
+    text-align: center; /* Center-align the image */
+    margin-bottom: 30px;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Match the border-radius from .mission */
+}
+
+.daily-feed {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.daily-feed h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.date-group {
+    margin-bottom: 20px;
+}
+
+.date-group h3 {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.animal-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between animal cards */
+}
+
+.animal {
+    flex: 1; /* Each animal takes up equal width in the flex container */
+    min-width: 250px; /* Minimum width for smaller screens */
+    background-color: #f3f3f3; /* Light grey background */
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.animal h4 {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.animal img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.animal p {
+    font-size: 0.9em;
+    line-height: 1.4;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.animal a {
+    display: inline-block;
+    background-color: #9fdc9f; /* Theme color */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.animal a:hover {
+    background-color: #8ecc8e; /* Slightly darker on hover */
+}
+
+.mission {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin: 30px auto; /* Centers the block horizontally with auto margins */
+    text-align: center; /* Centers the text inside the mission block */
+    max-width: 750px; /* Set a max-width to ensure it's not too wide on larger screens */
+}
+
+.mission h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2em; /* Make the header larger */
+}
+
+.mission p {
+    font-size: 1em;
+    line-height: 1.6; /* Improve readability */
+    color: #666; /* Slightly muted text color */
+    margin-bottom: 20px; /* Add some space below the paragraph */
+}

@@ -1,0 +1,64 @@
+/* LoginForm.css */
+
+.login-form {
+    width: 90%;
+    max-width: 400px; /* Narrow width for a focused form area */
+    margin: 30px auto; /* Center the form in the page */
+    padding: 20px;
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center; /* Center the text for the header */
+}
+
+.login-form h1 {
+    color: #333;
+    margin-bottom: 20px; /* Space after the form title */
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form label {
+    margin-bottom: 5px; /* Space above each input field */
+    text-align: left;
+    width: 100%; /* Full width labels for better alignment */
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="submit"] {
+    width: 90%; /* Full width input fields with some padding */
+    margin-bottom: 15px; /* Space between each field */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd; /* Subtle border for inputs */
+}
+
+.login-form input[type="submit"] {
+    background-color: #9fdc9f; /* Theme color for submit button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: #8ecc8e; /* Slightly darker on hover */
+}
+
+.login-form div {
+    margin-top: 15px;
+}
+
+.login-form a {
+    color: #9fdc9f; /* Theme color for links */
+    text-decoration: none;
+}
+
+.login-form a:hover {
+    text-decoration: underline;
+}
