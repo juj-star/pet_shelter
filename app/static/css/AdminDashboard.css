@@ -1,85 +1,134 @@
 /* AdminDashboard.css */
 
+.admin-dashboard {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
 .admin-dashboard h1 {
     text-align: center;
     color: #333;
-    margin-bottom: 30px; /* Space below the dashboard title */
+    margin-bottom: 30px;
 }
 
-.admin-dashboard {
-    margin-top: 50px; /* Increased top margin */
-}
-
-/* Style the search form specifically within admin-dashboard */
-.admin-dashboard form.search-form {
-    max-width: 300px;
-    margin: 20px auto; /* Center the form */
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.admin-dashboard form.search-form label,
-.admin-dashboard form.search-form input[type="text"],
-.admin-dashboard form.search-form input[type="submit"] {
-    margin-bottom: 10px; /* Space between form items */
-}
-
-.admin-dashboard form.search-form input[type="text"],
-.admin-dashboard form.search-form input[type="submit"] {
-    padding: 8px;
-    border: 1px solid #ddd; /* Subtle border for inputs */
-    border-radius: 4px;
-}
-
-.admin-dashboard form.search-form input[type="submit"] {
-    background-color: #9fdc9f; /* Theme color for submit button */
-    color: white;
-    cursor: pointer;
-}
-
-.admin-dashboard form.search-form input[type="submit"]:hover {
-    background-color: #8ecc8e; /* Slightly darker on hover */
-}
-
-.admin-dashboard .user-profile {
-    background-color: #fff; /* White background */
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+.admin-dashboard form {
+    max-width: 600px;
+    margin: 0 auto 30px;
     padding: 15px;
-    margin: 10px 0; /* Space between user profiles */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.admin-dashboard .user-profile p {
-    font-size: 0.9em;
-    line-height: 1.4;
-    color: #666; /* Muted text color */
-    margin-bottom: 5px; /* Space between paragraphs */
+.admin-dashboard label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
 }
 
-.admin-dashboard .user-profile form {
-    margin-top: 10px; /* Space above the buttons */
-    display: inline-block; /* Place buttons next to each other */
+.admin-dashboard input[type="text"] {
+    width: calc(100% - 22px); /* Account for padding and borders */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-.admin-dashboard .user-profile button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    margin-right: 5px; /* Space between buttons */
-    background-color: #9fdc9f; /* Theme color for buttons */
+.admin-dashboard input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #9fdc9f;
     color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
 }
 
+.admin-dashboard input[type="submit"]:hover {
+    background-color: #8ecc8e;
+}
+
+.admin-dashboard .user-profile {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.admin-dashboard .user-profile:hover {
+    transform: translateY(-5px); /* Raise the card up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase the shadow for a "lifted" effect */
+}
+
+.admin-dashboard .user-profile p {
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #666;
+}
+
+.admin-dashboard .user-profile form {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.admin-dashboard .user-profile form:last-child {
+    margin-right: 0;
+}
+
+.admin-dashboard .user-profile button {
+    padding: 8px 15px; /* Adjust padding to your liking */
+    background-color: #9fdc9f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 5px; /* Add a small margin to the top of buttons */
+    margin-bottom: 5px; /* Add a small margin to the bottom of buttons */
+    margin-right: 5px; /* Keep a small margin to the right for inline buttons */
+    display: inline-block; /* Align buttons inline with the text */
+    text-align: center;
+}
+
 .admin-dashboard .user-profile button:hover {
-    background-color: #8ecc8e; /* Slightly darker on hover */
+    background-color: #8ecc8e;
+}
+
+.admin-dashboard .user-profile form {
+    display: inline; /* Display forms inline without extra spacing */
+    margin: 0;
+    padding: 0;
+}
+
+/* Style for delete buttons specifically */
+.admin-dashboard .user-profile .delete-button {
+    padding: 8px 15px;
+    background-color: #d9534f; /* Bootstrap's btn-danger color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.admin-dashboard .user-profile .delete-button:hover {
+    background-color: #c9302c; /* Darken on hover for interaction feedback */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .admin-dashboard .user-profile {
-        margin-bottom: 20px; /* More space between user profiles on smaller screens */
-    }
+    /* ... */
+}
+
+@media (max-width: 480px) {
+    /* ... */
 }

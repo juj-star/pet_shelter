@@ -3,41 +3,44 @@
 .admin-dashboard-title {
     text-align: center;
     color: #333;
-    margin-bottom: 30px; /* Space below the dashboard title */
+    margin: 30px 0;
 }
 
 .search-section {
     max-width: 800px;
     margin: 20px auto;
-    padding: 15px;
+    padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.search-section form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 15px;
 }
 
 .search-section label {
     display: block;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .search-section input[type="text"],
 .search-section select,
 .search-section input[type="date"] {
-    width: calc(50% - 10px);
+    width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
+    margin-bottom: 10px;
 }
 
 .search-section input[type="checkbox"] {
     margin-right: 5px;
+}
+
+.search-section div {
+    display: flex;
+    flex-direction: column;
 }
 
 .search-section button {
@@ -47,6 +50,8 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 .search-section button:hover {
@@ -57,14 +62,15 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: space-around;
 }
 
 .animal {
     width: calc(33.333% - 20px);
     background-color: #fff;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px;
     text-align: center;
 }
 
@@ -86,14 +92,28 @@
     margin-bottom: 8px;
 }
 
+.animal form {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.animal form:last-child {
+    margin-right: 0;
+}
+
 .animal button {
-    padding: 5px 10px;
-    margin: 5px;
+    padding: 8px 15px;
     background-color: #9fdc9f;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 .animal button:hover {
@@ -105,16 +125,78 @@
     .animal {
         width: calc(50% - 20px); /* Two profiles per row on smaller screens */
     }
-
-    .search-section input[type="text"],
-    .search-section select,
-    .search-section input[type="date"] {
-        width: 100%;
-    }
 }
 
 @media (max-width: 480px) {
     .animal {
         width: 100%; /* One profile per column on mobile screens */
     }
+}
+
+/* Section headers for animal statuses */
+section {
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f8f8f8; /* Light background for each section */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+    font-size: 1.5em;
+    color: #333;
+    background-color: #9fdc9f; /* Use the theme color for the section header */
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: -20px 0 20px; /* Position it over the top of the section background */
+}
+
+/* Animal list within each status section */
+.animal-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    background-color: #ffffff; /* White background to contrast with the section background */
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Individual animal containers */
+.animal {
+    width: calc(33.333% - 20px);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.animal:hover {
+    transform: translateY(-5px); /* Lift the animal card slightly on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+/* Style for delete buttons specifically */
+.admin-dashboard .animal .delete-button {
+    padding: 8px 15px;
+    background-color: #d9534f; /* Red color for delete actions */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.admin-dashboard .animal .delete-button:hover {
+    background-color: #c9302c; /* Darken on hover for interaction feedback */
 }
