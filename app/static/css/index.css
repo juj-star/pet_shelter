@@ -73,6 +73,12 @@
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+
+.animal:hover {
+    transform: translateY(-5px); /* Raise the card up slightly on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance the shadow for a "lifted" effect */
 }
 
 .animal h4 {
@@ -130,4 +136,23 @@
     line-height: 1.6; /* Improve readability */
     color: #666; /* Slightly muted text color */
     margin-bottom: 20px; /* Add some space below the paragraph */
+}
+
+.date-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f8f8; /* Light background to highlight the date group */
+    /*border-left: 4px solid #9fdc9f; /* Add a colored bar to the left */
+    border-radius: 8px; /* Match the border-radius with other elements */
+}
+
+.date-group h3 {
+    font-size: 1.5em;
+    color: #333;
+    background-color: #9fdc9f; /* Use the theme color for the date header */
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: -15px 0 10px; /* Position it over the top of the date group background */
 }

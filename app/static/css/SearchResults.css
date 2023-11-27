@@ -1,0 +1,160 @@
+/* SearchResults.css */
+
+.search-results-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto; /* Center the container */
+    padding: 20px 0;
+}
+
+.search-results-title {
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+}
+
+.search-query {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.search-query h2,
+.search-results h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.search-query p,
+.search-results p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.back-to-dashboard {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-to-dashboard .back-button {
+    padding: 10px 20px;
+    background-color: #9fdc9f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none; /* Remove underline from link styled as a button */
+}
+
+.back-to-dashboard .back-button:hover {
+    background-color: #8ecc8e;
+}
+
+.search-results .animal-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.search-results .animal-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: calc(33.333% - 20px);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.search-results .animal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-results .animal-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.search-results .animal-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.search-results .animal-card .no-image {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.search-results .animal-card p {
+    font-size: 0.9em;
+    line-height: 1.4;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.search-results .animal-card .animal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+}
+
+.search-results .animal-card .btn {
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.search-results .animal-card .btn {
+    padding: 8px 15px; /* Uniform padding for buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.2s;
+    flex-grow: 1; /* Buttons take up equal space */
+    width: 100%; /* Ensures full width in flex container */
+}
+
+/* Edit button */
+.search-results .animal-card .edit-button {
+    background-color: #9fdc9f; /* Site's green color */
+    color: white;
+}
+
+.search-results .animal-card .edit-button:hover {
+    background-color: #8ecc8e; /* Darker green on hover */
+}
+
+/* Delete button */
+.search-results .animal-card .delete-button {
+    background-color: #d9534f; /* Red color for delete */
+    color: white;
+}
+
+.search-results .animal-card .delete-button:hover {
+    background-color: #c9302c; /* Darker red on hover */
+}
+
+.no-results {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+}

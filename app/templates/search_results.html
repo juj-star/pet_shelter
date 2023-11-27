@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Search Results</h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/SearchResults.css') }}">
+
+<div class="search-results-container">
+    <h1 class="search-results-title">Search Results</h1>
     
     <!-- Display the search query -->
-    <div>
+    <div class="search-query">
         <h2>Search Query:</h2>
         <p>Type: {{ search_query.type or 'Any' }}</p>
         <p>Breed: {{ search_query.breed or 'Any' }}</p>
         <p>Disposition: {{ search_query.disposition or 'Any' }}</p>
         <p>Date Posted: {{ search_query.date_created or 'Any' }}</p>
-        <form action="{{ url_for('main_bp.admin_animal_dashboard') }}" method="get">
-            <button type="submit">Back to Dashboard</button>
+        <form action="{{ url_for('main_bp.admin_animal_dashboard') }}" method="get" class="back-to-dashboard">
+            <button type="submit" class="btn back-button">Back to Dashboard</button>
         </form>
     </div>
 
@@ -21,12 +24,12 @@
             <h2>Found {{ animals|length }} animals matching your search:</h2>
             <div class="animal-list">
                 {% for animal in animals %}
-                    <div class="animal">
+                    <div class="animal-card">
                         <h3>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h3>
                         {% if animal['pic'] %}
-                            <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}">
+                            <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}" class="animal-image">
                         {% else %}
-                            <p>No image available.</p>
+                            <p class="no-image">No image available.</p>
                         {% endif %}
                         <p><strong>Description:</strong> {{ animal['description'] }}</p>
                         <p><strong>Dispositions:</strong> {{ ', '.join(animal['dispositions']) }}</p>
@@ -35,21 +38,21 @@
                         <!-- Add more details as needed -->
                         
                         <!-- Buttons for editing or deleting an animal -->
-                        <form action="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}" method="get">
-                            <button type="submit">Edit</button>
-                        </form>
-                        <form action="{{ url_for('main_bp.delete_animal', animal_id=animal['_id']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this animal?');">
-                            <button type="submit">Delete</button>
-                        </form>
+                        <div class="animal-actions">
+                            <form action="{{ url_for('main_bp.edit_animal', animal_id=animal['_id']) }}" method="get">
+                                <button type="submit" class="btn edit-button">Edit</button>
+                            </form>
+                            <form action="{{ url_for('main_bp.delete_animal', animal_id=animal['_id']) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this animal?');">
+                                <button type="submit" class="btn delete-button">Delete</button>
+                            </form>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p>No animals found matching your search.</p>
+            <p class="no-results">No animals found matching your search.</p>
         {% endif %}
     </section>
+</div>
 
-    <form action="{{ url_for('main_bp.admin_animal_dashboard') }}" method="get" class="back-to-dashboard">
-        <button type="submit">Back to Dashboard</button>
-    </form>
 {% endblock %}
