@@ -200,3 +200,52 @@ section h2 {
 .admin-dashboard .animal .delete-button:hover {
     background-color: #c9302c; /* Darken on hover for interaction feedback */
 }
+
+.add-animal-button {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.add-animal-button .add-button {
+    padding: 10px 20px;
+    background-color: #9fdc9f; /* Green color, similar to the edit button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline from link */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-animal-button .add-button:hover {
+    background-color: #8ecc8e; /* Darker green on hover */
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the content */
+    text-align: center; /* Center the text */
+    margin-bottom: 20px;
+}
+
+.admin-dashboard-title {
+    margin: 0; /* Reset margin for the title */
+    /* ... other title styles ... */
+}
+
+.add-button {
+    padding: 10px 20px;
+    background-color: #9fdc9f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 20px; /* Space between the title and the button */
+}
+
+.add-button:hover {
+    background-color: #8ecc8e;
+}

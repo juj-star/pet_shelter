@@ -3,7 +3,12 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/AdminAnimalDashboard.css') }}">
 <div class="admin-dashboard">
-    <h1 class="admin-dashboard-title">Admin Animal Dashboard</h1>
+    
+    <!-- Button to Add New Animal Profile -->
+    <div class="dashboard-header">
+        <h1 class="admin-dashboard-title">Admin Animal Dashboard</h1>
+        <a href="{{ url_for('main_bp.add_animal_profile') }}" class="btn add-button">Add New Animal</a>
+    </div>
 
     <!-- Unified Search Form -->
     <!-- ... existing search form code ... -->

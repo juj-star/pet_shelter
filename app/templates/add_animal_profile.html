@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/AddAnimalProfile.css') }}">
 <div class="add-animal-form">
 <h1>Add Animal Profile</h1>
 <form method="post" action="{{ url_for('main_bp.add_animal_profile') }}" enctype="multipart/form-data">
