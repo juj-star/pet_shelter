@@ -15,6 +15,37 @@
     </div>
 
     <!-- ... [existing search form code] ... -->
+    <div class="search-section">
+        <form action="{{ url_for('main_bp.search_animals') }}" method="get">
+            <div>
+                <label for="type">Type:</label>
+                <select id="type" name="type">
+                    <option value="">--Select Type--</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed" placeholder="Golden Retriever...">
+            </div>
+            <div>
+                <label>Disposition:</label>
+                <div>
+                    <label><input type="checkbox" name="disposition" value="Good with children"> Good with children</label>
+                    <label><input type="checkbox" name="disposition" value="Good with other animals"> Good with other animals</label>
+                    <label><input type="checkbox" name="disposition" value="Animal must be leashed at all times"> Must be leashed</label>
+                    <!-- Add more checkboxes for other dispositions as needed -->
+                </div>
+            </div>
+            <div>
+                <label for="date_created">Date Posted:</label>
+                <input type="date" id="date_created" name="date_created">
+            </div>
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
     <section class="daily-feed">
         <h2>Daily News Feed</h2>

@@ -156,3 +156,56 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: -15px 0 10px; /* Position it over the top of the date group background */
 }
+
+
+.search-section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 15px;
+}
+
+.search-section label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.search-section input[type="text"],
+.search-section select,
+.search-section input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.search-section input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.search-section div {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-section button {
+    padding: 10px 20px;
+    background-color: #9fdc9f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.search-section button:hover {
+    background-color: #8ecc8e;
+}
