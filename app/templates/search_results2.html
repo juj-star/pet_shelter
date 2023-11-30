@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/SearchResults.css') }}">
+
+<div class="search-results-container">
+    <h1 class="search-results-title">Search Results</h1>
+    
+    <!-- Display the search query -->
+    <div class="search-query">
+        <h2>Search Query:</h2>
+        <p>Type: {{ search_query.type or 'Any' }}</p>
+        <p>Breed: {{ search_query.breed or 'Any' }}</p>
+        <p>Disposition: {{ search_query.disposition or 'Any' }}</p>
+        <p>Date Posted: {{ search_query.date_created or 'Any' }}</p>
+        <form action="{{ url_for('main_bp.admin_animal_dashboard') }}" method="get" class="back-to-dashboard">
+            <button type="submit" class="btn back-button">Back to Dashboard</button>
+        </form>
+    </div>
+
+    <!-- Display the results -->
+    <section class="search-results">
+        {% if animals %}
+            <h2>Found {{ animals|length }} animals matching your search:</h2>
+            <div class="animal-list">
+                {% for animal in animals %}
+                    <div class="animal-card">
+                        <h3>{{ animal['type_name'] }} - {{ animal['breed_name'] }}</h3>
+                        {% if animal['pic'] %}
+                            <img src="data:image/jpeg;base64,{{ animal['pic'] }}" alt="Picture of {{ animal['type_name'] }}" class="animal-image">
+                        {% else %}
+                            <p class="no-image">No image available.</p>
+                        {% endif %}
+                        <p><strong>Description:</strong> {{ animal['description'] }}</p>
+                        <p><strong>Dispositions:</strong> {{ ', '.join(animal['dispositions']) }}</p>
+                        <p><strong>Availability:</strong> {{ animal['availability'] }}</p>
+                        <p><strong>Date Posted:</strong> {{ animal['date_created'] }}</p>
+                        <!-- Add more details as needed -->
+                        
+                        <!-- Buttons for editing or deleting an animal -->
+                        <div class="animal-actions">
+                            <form action="{{ url_for('main_bp.profile', profile_id=animal['_id']) }}" method="get">
+                                <button type="submit" class="btn edit-button">View Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-results">No animals found matching your search.</p>
+        {% endif %}
+    </section>
+</div>
+
+{% endblock %}

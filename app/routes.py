@@ -547,6 +547,47 @@ def search_animals():
                                'date_created': date_created
                            })
 
+@main_bp.route('/search_animals2', methods=['GET'])
+def search_animals2():
+    # Ensure the user is an admin
+    if 'is_admin' not in session or not session['is_admin']:
+        flash('You must be an administrator to access this page.', 'danger')
+        return redirect(url_for('main_bp.login'))
+
+    # Extract search parameters from the request
+    type_name = request.args.get('type')
+    breed_name = request.args.get('breed')
+    dispositions = request.args.getlist('disposition')
+    date_created = request.args.get('date_created')
+
+    # Construct the query
+    query = {}
+    if type_name:
+        query['type_name'] = {'$regex': type_name, '$options': 'i'}
+    if breed_name:
+        query['breed_name'] = {'$regex': breed_name, '$options': 'i'}
+    if dispositions:
+        query['dispositions'] = {'$in': dispositions}
+    if date_created:
+        query['date_created'] = {'$gte': f"{date_created}T00:00:00Z", '$lte': f"{date_created}T23:59:59.999Z"}
+
+    # Execute the query
+    matching_animals = get_animals_by_query(query)
+
+    # Convert binary image data to base64 strings
+    for animal in matching_animals:
+        if 'pic' in animal and isinstance(animal['pic'], bytes):
+            animal['pic'] = base64.b64encode(animal['pic']).decode('utf-8')
+
+    # Render the search results page
+    return render_template('search_results2.html', animals=matching_animals,
+                           search_query={
+                               'type': type_name,
+                               'breed': breed_name,
+                               'disposition': dispositions,
+                               'date_created': date_created
+                           })
+
 @main_bp.route('/about-us')
 def about_us():
     return render_template('about_us.html')
