@@ -209,3 +209,36 @@
 .search-section button:hover {
     background-color: #8ecc8e;
 }
+
+.animal-actions .btn {
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.animal-actions .btn {
+    padding: 8px 15px; /* Uniform padding for buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.2s;
+    flex-grow: 1; /* Buttons take up equal space */
+}
+
+/* Edit button */
+.animal-actions .edit-button {
+    justify-content: center;
+    background-color: #9fdc9f; /* Site's green color */
+    color: white;
+}
+
+.animal-actions .edit-button:hover {
+    background-color: #8ecc8e; /* Darker green on hover */
+}

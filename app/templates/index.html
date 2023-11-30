@@ -63,7 +63,11 @@
                                     <p>No image available.</p>
                                 {% endif %}
                                 <p>{{ animal['description'] }}</p>
-                                <a href="{{ url_for('main_bp.profile', profile_id=animal['_id']) }}">View Profile</a>
+                                <div class="animal-actions">
+                                    <form action="{{ url_for('main_bp.profile', profile_id=animal['_id']) }}" method="get">
+                                        <button type="submit" class="btn edit-button">View Profile</button>
+                                    </form>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
