@@ -549,10 +549,6 @@ def search_animals():
 
 @main_bp.route('/search_animals2', methods=['GET'])
 def search_animals2():
-    # Ensure the user is an admin
-    if 'is_admin' not in session or not session['is_admin']:
-        flash('You must be an administrator to access this page.', 'danger')
-        return redirect(url_for('main_bp.login'))
 
     # Extract search parameters from the request
     type_name = request.args.get('type')
